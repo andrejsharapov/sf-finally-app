@@ -1,0 +1,19 @@
+{
+  "name": "andrejsharapov/finally-app",
+  "description": "Backend learning: finally app",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "andrejsharapov",
+      "email": "an.sharapov90@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "monolog/monolog": "^2.5",
+    "vlucas/phpdotenv": "^5.5",
+    "phpmailer/phpmailer": "dev-master",
+    "ext-mysqli": "*"
+  }
+}
