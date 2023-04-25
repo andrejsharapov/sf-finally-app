@@ -27,11 +27,26 @@ if (!isset($user_id)) {
 
 <!-- dialog create offer -->
 <!-- button trigger modal -->
-<?php if (isset($user) && $user['role_id'] == '2'): ?>
-    <button type="button" class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        Создать предложение
-    </button>
-<?php endif; ?>
+<div class="d-flex w-100 justify-content-between align-items-center">
+    <div class="col-9">
+        <h5>
+            <?php
+            if ($user['role_id'] == '2') {
+                echo 'Мои предложения';
+            } else {
+                echo 'Доступные предложения';
+            }
+            ?>
+        </h5>
+    </div>
+    <div class="col-3 d-flex justify-content-end">
+        <?php if (isset($user) && $user['role_id'] == '2'): ?>
+            <button type="button" class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Создать новое
+            </button>
+        <?php endif; ?>
+    </div>
+</div>
 <!-- /button trigger modal -->
 
 <!-- modal -->
@@ -88,7 +103,6 @@ if (!isset($user_id)) {
 
 <div class="row">
     <?php foreach ($offers as $key => $val): ?>
-
         <?php if ($val['user_id'] == $user_id): ?>
             <div class="col-4 mb-4">
                 <div class="card">
@@ -105,8 +119,10 @@ if (!isset($user_id)) {
                         <p>
                             <?= $val['theme']; ?>
                         </p>
+
                         <div class="d-flex justify-content-between align-items-center text-danger">
                             <h6 class="mb-0"><?= $val['count'] . ' руб.' ?></h6>
+
                             <?php if (isset($user) && $user['role_id'] == '3'): ?>
                                 <a href="<?= $val['url']; ?>" class="btn btn-primary">Перейти</a>
                             <?php endif; ?>
