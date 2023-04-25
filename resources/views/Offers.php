@@ -2,12 +2,11 @@
 
 $user = $_SESSION['user'];
 $user_id = $user['id'];
+$offers = $data['offers'] ?? [];
 
 if (!isset($user_id)) {
     header('location: /');
 }
-
-$offers = $data['offers'];
 
 ?>
 
@@ -17,12 +16,18 @@ $offers = $data['offers'];
         echo ucfirst($user['name']) . ", добро пожаловать на страницу предложений!";
         ?>
     </h3>
-    <h6 class="card-subtitle mb-2 text-body-secondary">Здесь вы можете создать своё предложение.</h6>
+    <h6 class="card-subtitle mb-2 text-body-secondary">
+        <?php if (isset($user) && $user['role_id'] == '2'): ?>
+            Здесь вы можете создать своё предложение.
+        <?php else: ?>
+            Здесь вы можете переходить по созданным предложениям.
+        <?php endif; ?>
+    </h6>
 </div>
 
 <!-- dialog create offer -->
 <!-- button trigger modal -->
-<?php if (isset($_SESSION['user']['id']) && $_SESSION['user']['role'] == 'user'): ?>
+<?php if (isset($user) && $user['role_id'] == '2'): ?>
     <button type="button" class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
         Создать предложение
     </button>
@@ -41,6 +46,7 @@ $offers = $data['offers'];
             <div class="modal-body">
                 <!-- form offer -->
                 <form method="post">
+                    <input type="hidden" id="form" name="form" value="create_offer">
                     <div class="mb-3">
                         <label for="title" class="col-sm-12 col-form-label">Название</label>
                         <div class="col-sm-12">
@@ -82,12 +88,13 @@ $offers = $data['offers'];
 
 <div class="row">
     <?php foreach ($offers as $key => $val): ?>
+
         <?php if ($val['user_id'] == $user_id): ?>
-            <div class="col-4">
+            <div class="col-4 mb-4">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">
-                            <?= $val['url']; ?>
+                            <?= $val['id']; ?>, <?= $val['title']; ?>
                         </h4>
                         <h6 class="card-subtitle mb-2 text-body-secondary">
                             От <?php
@@ -100,14 +107,33 @@ $offers = $data['offers'];
                         </p>
                         <div class="d-flex justify-content-between align-items-center text-danger">
                             <h6 class="mb-0"><?= $val['count'] . ' руб.' ?></h6>
-                            <?php if ($user['role_id'] == 1 || $user['role_id'] == 3): ?>
+                            <?php if (isset($user) && $user['role_id'] == '3'): ?>
                                 <a href="<?= $val['url']; ?>" class="btn btn-primary">Перейти</a>
+                            <?php endif; ?>
+
+                            <?php if ($val['user_id'] == $user_id): ?>
+                                <?php if ($val['state'] == '1'): ?>
+                                    <form method="post">
+                                        <input type="hidden" id="form" name="form" value="inactive_offer">
+                                        <input name="val_id" id="val_id" type="hidden"
+                                               value="<?php echo $val['id']; ?>">
+                                        <input name="set_state" id="set_state" type="hidden" value="0">
+                                        <button type="submit" class="btn btn-outline-secondary">Деактивировать</button>
+                                    </form>
+
+                                <?php elseif ($val['state'] == '0'): ?>
+                                    <form method="post">
+                                        <input type="hidden" id="form" name="form" value="active_offer">
+                                        <input name="val_id" id="val_id" type="hidden"
+                                               value="<?php echo $val['id']; ?>">
+                                        <input name="set_state" id="set_state" type="hidden" value="1">
+                                        <button type="submit" class="btn btn-outline-secondary">Активировать</button>
+                                    </form>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         <?php endif; ?>
     <?php endforeach; ?>
