@@ -46,7 +46,12 @@ class ModelOffers extends Model
         $table_offers = $this->db_table;
         $table_users = 'users';
 
-        $query_offer = "SELECT * FROM $table_users LEFT JOIN $table_offers ON $table_offers.user_id = $table_users.id";
+        if ($_SESSION['user']['role_id'] == '2') {
+            $query_offer = "SELECT * FROM $table_users LEFT JOIN $table_offers ON $table_offers.user_id = $table_users.id";
+        } else {
+            $query_offer = "SELECT * FROM $table_offers WHERE state = 1";
+        }
+
         $set_list = mysqli_query($db_link, $query_offer) or die(mysqli_error($db_link));
 
         for (
@@ -56,7 +61,7 @@ class ModelOffers extends Model
         ) {
         }
 
-        return $this->offers;
+        return $this->offers ?? [];
     }
 
     public function unActivateOffer()

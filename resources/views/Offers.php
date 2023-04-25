@@ -10,20 +10,18 @@ if (!isset($user_id)) {
 
 ?>
 
-<div class="card-body">
-    <h3 class="card-title">
-        <?php
-        echo ucfirst($user['name']) . ", добро пожаловать на страницу предложений!";
-        ?>
-    </h3>
-    <h6 class="card-subtitle mb-2 text-body-secondary">
-        <?php if (isset($user) && $user['role_id'] == '2'): ?>
-            Здесь вы можете создать своё предложение.
-        <?php else: ?>
-            Здесь вы можете переходить по созданным предложениям.
-        <?php endif; ?>
-    </h6>
-</div>
+<h3 class="card-title">
+    <?php
+    echo ucfirst($user['name']) . ", добро пожаловать на страницу предложений!";
+    ?>
+</h3>
+<h6 class="card-subtitle mb-2 text-body-secondary">
+    <?php if (isset($user) && $user['role_id'] == '2'): ?>
+        Здесь вы можете создать своё предложение.
+    <?php else: ?>
+        Здесь вы можете переходить по созданным предложениям.
+    <?php endif; ?>
+</h6>
 
 <!-- dialog create offer -->
 <!-- button trigger modal -->
@@ -103,7 +101,9 @@ if (!isset($user_id)) {
 
 <div class="row">
     <?php foreach ($offers as $key => $val): ?>
-        <?php if ($val['user_id'] == $user_id): ?>
+        <?php
+        if (isset($val['id'])):
+            ?>
             <div class="col-4 mb-4">
                 <div class="card">
                     <div class="card-body">
@@ -151,6 +151,6 @@ if (!isset($user_id)) {
                     </div>
                 </div>
             </div>
-        <?php endif; ?>
+        <? endif; ?>
     <?php endforeach; ?>
 </div>
