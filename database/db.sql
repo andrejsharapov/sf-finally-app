@@ -1,5 +1,6 @@
 /**
-  use DBeaver 23.0.2
+  * use DBeaver 23.0.3
+  * MySQL
  */
 
 -- create database
@@ -64,7 +65,9 @@ VALUES (
            'admin',
            'admin@ya.ru',
            '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2',
-           '2023-04-23', 'admin', '1'
+           '2023-04-23',
+           'admin',
+           '1'
        );
 
 CREATE INDEX role_email_index ON users (role, email);
@@ -75,3 +78,37 @@ SELECT * FROM users WHERE role_id >= 2;
 DELETE FROM users WHERE id > 1;
 ALTER TABLE users AUTO_INCREMENT = 2;
 DROP TABLE users;
+
+-- create offers table
+CREATE TABLE offers
+(
+    id       serial PRIMARY KEY,
+    title     VARCHAR(256) NOT NULL,
+    count    VARCHAR(50) default 0,
+    url VARCHAR(256) NOT NULL,
+    theme VARCHAR(256) NOT NULL,
+    user_id VARCHAR(256) NOT NULL,
+    created     DATE        NOT NULL
+);
+
+-- add column state
+ALTER TABLE offers
+    ADD COLUMN state VARCHAR(1)
+;
+
+-- set default state
+ALTER TABLE offers
+    ALTER state
+        SET DEFAULT '1'
+;
+
+-- UPDATE offers SET state = '0' WHERE id = 1;
+
+SELECT * FROM offers;
+
+CREATE INDEX title_user_id_index ON offers (title, user_id);
+CREATE INDEX title_user_id_state_index ON offers (title, user_id, state);
+
+DELETE FROM offers;
+ALTER TABLE offers AUTO_INCREMENT = 1;
+DROP TABLE offers;
