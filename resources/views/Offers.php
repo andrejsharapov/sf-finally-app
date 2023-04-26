@@ -109,9 +109,7 @@ if (!isset($user_id)) {
         </div>
     <?php else: ?>
         <?php foreach ($offers as $key => $val): ?>
-            <?php
-            if (isset($val['id'])):
-                ?>
+            <?php if (isset($val['id'])): ?>
                 <div class="col-4 mb-4">
                     <div class="card card-form_send">
                         <div class="card-body">
@@ -142,10 +140,14 @@ if (!isset($user_id)) {
                                     <!-- /TESTS -->
                                     <form method="post" class="form_send">
                                         <input type="hidden" name="form" value="" class="">
-                                        <input type="hidden" name="send_id" value="<?php echo $val['id']; ?>" class="form_send-id">
-                                        <input type="hidden" name="send_payment" value="<?php echo $val['payment']; ?>" class="form_send-payment">
-                                        <input type="hidden" name="send_transition" value="<?php echo $val['transitions']; ?>" class="form_send-transitions">
-                                        <button type="submit" class="form_send-btn w-100 btn btn-primary form_send-link">
+                                        <input type="hidden" name="send_id" value="<?php echo $val['id']; ?>"
+                                               class="form_send-id">
+                                        <input type="hidden" name="send_payment" value="<?php echo $val['payment']; ?>"
+                                               class="form_send-payment">
+                                        <input type="hidden" name="send_transition"
+                                               value="<?php echo $val['transitions']; ?>" class="form_send-transitions">
+                                        <button type="submit"
+                                                class="form_send-btn w-100 btn btn-primary form_send-link">
                                             Перейти
                                         </button>
                                     </form>

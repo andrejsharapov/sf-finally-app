@@ -16,7 +16,7 @@ class ModelOffers extends Model
             'user_id' => $_SESSION['user']['id'] ?? null,
             'created' => (new DateTime())->format('Y-m-d H:i:s') ?? null,
             'title' => $data['title'],
-            'payment' => $data['count'],
+            'payment' => $data['payment'],
             'url' => $data['path'],
             'theme' => $data['theme'],
         ];
@@ -53,6 +53,7 @@ class ModelOffers extends Model
         $table_offers = $this->db_table;
         $table_users = 'users';
         $role_id = $_SESSION['user']['role_id'];
+        $query_offer = null;
 
         if ($role_id == '1') {
             $query_offer = "SELECT * FROM $table_offers";
