@@ -15,10 +15,11 @@ if (!isset($user_id)) {
     echo ucfirst($user['name']) . ", добро пожаловать на страницу предложений!";
     ?>
 </h3>
-<h6 class="card-subtitle mb-2 text-body-secondary">
+
+<h6 class="card-subtitle mb-3 text-body-secondary">
     <?php if (isset($user) && $user['role_id'] == '2'): ?>
         Здесь вы можете создать своё предложение.
-    <?php else: ?>
+    <?php elseif ($user['role_id'] == '3'): ?>
         Здесь вы можете переходить по созданным предложениям.
     <?php endif; ?>
 </h6>
@@ -34,6 +35,8 @@ if (!isset($user_id)) {
             } else {
                 echo 'Доступные предложения';
             }
+
+            echo ' (' . count($offers) . ')' ?? ' (0)'
             ?>
         </h5>
     </div>
@@ -100,61 +103,69 @@ if (!isset($user_id)) {
 <!-- /dialog create offer -->
 
 <div class="row">
-    <?php foreach ($offers as $key => $val): ?>
-        <?php
-        if (isset($val['id'])):
-            ?>
-            <div class="col-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            <?= $val['title']; ?>
-                        </h4>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">
-                            От <?php
-                            $date = date_create($val['created']);
-                            echo date_format($date, 'd.m.Y');
-                            ?>
-                        </h6>
-                        <p>
-                            <?= $val['theme']; ?>
-                        </p>
-
-                        <div class="d-flex justify-content-between align-items-center text-danger">
-                            <h6 class="mb-0">
-                                <?php if (isset($user) && ($val['user_id'] == $user_id || $user['role_id'] == '1')): ?>
-                                    <?= $val['count'] . ' руб.' ?>
-                                <?php endif; ?>
+    <?php if (!count($offers)): ?>
+       <div class="col-12">
+           <p>Нет доступных предложений</p>
+       </div>
+    <?php else: ?>
+        <?php foreach ($offers as $key => $val): ?>
+            <?php
+            if (isset($val['id'])):
+                ?>
+                <div class="col-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <?= $val['title']; ?>
+                            </h4>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">
+                                От <?php
+                                $date = date_create($val['created']);
+                                echo date_format($date, 'd.m.Y');
+                                ?>
                             </h6>
+                            <p>
+                                Тематика: <?= $val['theme']; ?>
+                            </p>
 
-                            <?php if (isset($user) && $user['role_id'] == '3'): ?>
-                                <a href="<?= $val['url']; ?>" class="w-100 btn btn-primary">Перейти</a>
-                            <?php endif; ?>
+                            <div class="d-flex justify-content-between align-items-center text-danger">
+                                <h6 class="mb-0">
+                                    <?php if (isset($user) && ($val['user_id'] == $user_id || $user['role_id'] == '1')): ?>
+                                        Стоимость: <?= $val['count'] . ' руб.' ?>
+                                    <?php endif; ?>
+                                </h6>
 
-                            <?php if ($val['user_id'] == $user_id || $user['role_id'] == '1'): ?>
-                                <?php if ($val['state'] == '1'): ?>
-                                    <form method="post">
-                                        <input type="hidden" id="form" name="form" value="inactive_offer">
-                                        <input name="val_id" id="val_id" type="hidden"
-                                               value="<?php echo $val['id']; ?>">
-                                        <input name="set_state" id="set_state" type="hidden" value="0">
-                                        <button type="submit" class="btn btn-outline-secondary">Деактивировать</button>
-                                    </form>
-
-                                <?php elseif ($val['state'] == '0'): ?>
-                                    <form method="post">
-                                        <input type="hidden" id="form" name="form" value="active_offer">
-                                        <input name="val_id" id="val_id" type="hidden"
-                                               value="<?php echo $val['id']; ?>">
-                                        <input name="set_state" id="set_state" type="hidden" value="1">
-                                        <button type="submit" class="btn btn-outline-secondary">Активировать</button>
-                                    </form>
+                                <?php if (isset($user) && $user['role_id'] == '3'): ?>
+                                    <a href="<?= $val['url']; ?>" class="w-100 btn btn-primary">Перейти</a>
                                 <?php endif; ?>
-                            <?php endif; ?>
+
+                                <?php if ($val['user_id'] == $user_id || $user['role_id'] == '1'): ?>
+                                    <?php if ($val['state'] == '1'): ?>
+                                        <form method="post">
+                                            <input type="hidden" id="form" name="form" value="inactive_offer">
+                                            <input name="val_id" id="val_id" type="hidden"
+                                                   value="<?php echo $val['id']; ?>">
+                                            <input name="set_state" id="set_state" type="hidden" value="0">
+                                            <button type="submit" class="btn btn-outline-secondary">Деактивировать
+                                            </button>
+                                        </form>
+
+                                    <?php elseif ($val['state'] == '0'): ?>
+                                        <form method="post">
+                                            <input type="hidden" id="form" name="form" value="active_offer">
+                                            <input name="val_id" id="val_id" type="hidden"
+                                                   value="<?php echo $val['id']; ?>">
+                                            <input name="set_state" id="set_state" type="hidden" value="1">
+                                            <button type="submit" class="btn btn-outline-secondary">Активировать
+                                            </button>
+                                        </form>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        <?php endif; ?>
-    <?php endforeach; ?>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </div>
