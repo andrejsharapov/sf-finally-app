@@ -71,7 +71,7 @@ if (isset($user)) {
                         <input type="password" class="form-control" name="password" id="password"
                                placeholder="Придумайте пароль">
                     </div>
-                    <input type="hidden" name="token" value="<? echo $token; ?>">
+                    <input type="hidden" name="token" value="<?php echo $token; ?>">
                     <button type="submit" class="btn btn-primary">Вход</button>
                 </form>
 
