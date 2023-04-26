@@ -117,6 +117,11 @@ INSERT INTO offers (title, payment, url, theme, user_id, created) VALUES ('GitHu
 -- ALTER TABLE offers
 --     DROP COLUMN transitions;
 
+-- add column transitions
+ALTER TABLE offers
+    ADD COLUMN total_cost INT DEFAULT '0' -- тут нужно будет заменить дефолт на значения из payment
+;
+
 -- UPDATE offers SET state = '0' WHERE id = 1;
 
 SELECT * FROM offers;
