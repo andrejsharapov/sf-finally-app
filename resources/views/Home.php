@@ -1,12 +1,11 @@
 <?php
-//var_dump($_SESSION['user']);
+
 $user = $_SESSION['user'] ?? null;
 
 if (isset($user)) {
-    header('location: /?url=offers');
+    header('Location: /?url=offers');
 }
 
-//var_dump($_POST);
 ?>
 
 <div class="d-grid" style="grid-template-columns: repeat(2, 1fr); grid-gap: 1rem;">

@@ -1,8 +1,10 @@
 <?php
 
+session_start();
+
 class Model
 {
-    protected $db = null;
+    protected ?mysqli $db = null;
 
     public function __construct()
     {

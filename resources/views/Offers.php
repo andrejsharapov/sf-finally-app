@@ -5,7 +5,7 @@ $user_id = $user['id'];
 $offers = $data['offers'] ?? [];
 
 if (!isset($user_id)) {
-    header('location: /');
+    header('Location: /');
 }
 
 ?>

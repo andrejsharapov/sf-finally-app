@@ -4,6 +4,9 @@ require_once __DIR__ . '/../dotenv.php';
 
 class DB
 {
+    /**
+     * @return mysqli
+     */
     public function getDatabase(): mysqli
     {
         $db_host = $_ENV['DB_HOST'];

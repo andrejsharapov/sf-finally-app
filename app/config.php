@@ -1,10 +1,10 @@
 <?php
 
-require_once 'app/Models/Model.php';
-require_once 'resources/views/View.php';
-require_once 'app/Http/Controllers/Controller.php';
-require_once 'routes/Route.php';
-require_once 'database/db.php';
+require_once __DIR__ . '/../app/Models/Model.php';
+require_once __DIR__ . '/../resources/views/View.php';
+require_once __DIR__ . '/../app/Http/Controllers/Controller.php';
+require_once __DIR__ . '/../routes/Route.php';
+require_once __DIR__ . '/../database/db.php';
 
-Route::start();
+(new Route)->start();
 
