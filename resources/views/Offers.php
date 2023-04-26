@@ -108,7 +108,7 @@ if (!isset($user_id)) {
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">
-                            <?= $val['id']; ?>, <?= $val['title']; ?>
+                            <?= $val['title']; ?>
                         </h4>
                         <h6 class="card-subtitle mb-2 text-body-secondary">
                             От <?php
@@ -121,13 +121,17 @@ if (!isset($user_id)) {
                         </p>
 
                         <div class="d-flex justify-content-between align-items-center text-danger">
-                            <h6 class="mb-0"><?= $val['count'] . ' руб.' ?></h6>
+                            <h6 class="mb-0">
+                                <?php if (isset($user) && ($val['user_id'] == $user_id || $user['role_id'] == '1')): ?>
+                                    <?= $val['count'] . ' руб.' ?>
+                                <?php endif; ?>
+                            </h6>
 
                             <?php if (isset($user) && $user['role_id'] == '3'): ?>
-                                <a href="<?= $val['url']; ?>" class="btn btn-primary">Перейти</a>
+                                <a href="<?= $val['url']; ?>" class="w-100 btn btn-primary">Перейти</a>
                             <?php endif; ?>
 
-                            <?php if ($val['user_id'] == $user_id): ?>
+                            <?php if ($val['user_id'] == $user_id || $user['role_id'] == '1'): ?>
                                 <?php if ($val['state'] == '1'): ?>
                                     <form method="post">
                                         <input type="hidden" id="form" name="form" value="inactive_offer">
@@ -151,6 +155,6 @@ if (!isset($user_id)) {
                     </div>
                 </div>
             </div>
-        <? endif; ?>
+        <?php endif; ?>
     <?php endforeach; ?>
 </div>
