@@ -10,23 +10,37 @@ class ControllerOffers extends Controller
 
     function index()
     {
-        $model = $this->model;
-        $data = $model->handle();
+        $data = $this->model->handle();
 
-        $this->update($data, $model);
-        $this->show($data, $model);
+        $this->update($data);
+        $this->increment();
+        $this->show($data);
     }
 
-    public function show($data, $model)
+    public function increment(): ?array
     {
-        $data['offers'] = $model->offerList();
+        $data = null;
+
+        if (isset($_POST)) {
+            $data['increment'] = $_POST;
+            $data = $data['increment'];
+
+            $this->model->incrementPaymentCount($data);
+        }
+
+        return $data;
+    }
+
+    public function show($data)
+    {
+        $data['offers'] = $this->model->offerList();
 
         $this->view->generate('Offers.php', 'Layout.php', $data);
     }
 
-    public function update($data, $model)
+    public function update($data)
     {
-        $data['activateOffer'] = $model->activateOffer();
-        $data['unActivateOffer'] = $model->unActivateOffer();
+        $data['activateOffer'] = $this->model->activateOffer();
+        $data['unActivateOffer'] = $this->model->unActivateOffer();
     }
 }
