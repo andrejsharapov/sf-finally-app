@@ -70,9 +70,9 @@ if (!isset($user_id)) {
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="count" class="col-sm-12 col-form-label">Стоимость перехода</label>
+                        <label for="payment" class="col-sm-12 col-form-label">Стоимость перехода</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="count" name="count">
+                            <input type="text" class="form-control" id="payment" name="payment">
                         </div>
                     </div>
                     <div class="mb-3">
@@ -104,16 +104,16 @@ if (!isset($user_id)) {
 
 <div class="row">
     <?php if (!count($offers)): ?>
-       <div class="col-12">
-           <p>Нет доступных предложений</p>
-       </div>
+        <div class="col-12">
+            <p>Нет доступных предложений</p>
+        </div>
     <?php else: ?>
         <?php foreach ($offers as $key => $val): ?>
             <?php
             if (isset($val['id'])):
                 ?>
                 <div class="col-4 mb-4">
-                    <div class="card">
+                    <div class="card card-form_send">
                         <div class="card-body">
                             <h4 class="card-title">
                                 <?= $val['title']; ?>
@@ -131,12 +131,23 @@ if (!isset($user_id)) {
                             <div class="d-flex justify-content-between align-items-center text-danger">
                                 <h6 class="mb-0">
                                     <?php if (isset($user) && ($val['user_id'] == $user_id || $user['role_id'] == '1')): ?>
-                                        Стоимость: <?= $val['count'] . ' руб.' ?>
+                                        Стоимость: <?= $val['payment'] . ' руб.' ?>
                                     <?php endif; ?>
                                 </h6>
-
                                 <?php if (isset($user) && $user['role_id'] == '3'): ?>
-                                    <a href="<?= $val['url']; ?>" class="w-100 btn btn-primary">Перейти</a>
+                                    <!-- TESTS -->
+                                    <?php
+                                    echo 'click: ' . $val['transitions'];
+                                    ?>
+                                    <!-- /TESTS -->
+                                    <form method="post" class="form_send">
+                                        <input type="hidden" name="send_id" value="<?php echo $val['id']; ?>" class="form_send-id">
+                                        <input type="hidden" name="send_payment" value="<?php echo $val['payment']; ?>" class="form_send-payment">
+                                        <input type="hidden" name="send_transition" value="<?php echo $val['transitions']; ?>" class="form_send-transitions">
+                                        <button type="submit" class="form_send-btn w-100 btn btn-primary form_send-link">
+                                            Перейти
+                                        </button>
+                                    </form>
                                 <?php endif; ?>
 
                                 <?php if ($val['user_id'] == $user_id || $user['role_id'] == '1'): ?>
