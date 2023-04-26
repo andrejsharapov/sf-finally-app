@@ -137,10 +137,11 @@ if (!isset($user_id)) {
                                 <?php if (isset($user) && $user['role_id'] == '3'): ?>
                                     <!-- TESTS -->
                                     <?php
-                                    echo 'click: ' . $val['transitions'];
+                                    echo $val['payment'] . ', ' . $val['transitions'] . ', ' . $val['total_cost'];
                                     ?>
                                     <!-- /TESTS -->
                                     <form method="post" class="form_send">
+                                        <input type="hidden" name="form" value="" class="">
                                         <input type="hidden" name="send_id" value="<?php echo $val['id']; ?>" class="form_send-id">
                                         <input type="hidden" name="send_payment" value="<?php echo $val['payment']; ?>" class="form_send-payment">
                                         <input type="hidden" name="send_transition" value="<?php echo $val['transitions']; ?>" class="form_send-transitions">
