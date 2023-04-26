@@ -89,17 +89,17 @@ class ModelOffers extends Model
         $db_link = $this->dataBaseLink();
         $id = $data['send_id'] ?? null;
         $trans = $data['send_transition'] ?? null;
-//        $payment = $data['send_payment'] ?? null;
+        $payment = $data['send_payment'] ?? null;
 
         $trans_i = $trans + 1;
-//        $total_cost = $trans_i * $payment;
+        $total_cost = (int)$trans_i * $payment;
 
         if (!empty($data)) {
             $increment_offer_trans = "UPDATE $this->db_table SET transitions = '$trans_i' WHERE id = '$id'";
-//            $update_total_cost = "UPDATE $this->db_table SET transitions = '$total_cost' WHERE id = '$id'";
+            $update_total_cost = "UPDATE $this->db_table SET total_cost = '$total_cost' WHERE id = '$id'";
 
             mysqli_query($db_link, $increment_offer_trans) or die(mysqli_error($db_link));
-//            mysqli_query($db_link, $update_total_cost) or die(mysqli_error($db_link));
+            mysqli_query($db_link, $update_total_cost) or die(mysqli_error($db_link));
 
             header('Refresh: 0');
         }
