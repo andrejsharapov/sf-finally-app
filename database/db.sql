@@ -41,7 +41,7 @@ CREATE TABLE users
 -- fix password error (use hash)
 ALTER TABLE users
     MODIFY COLUMN password
-    VARCHAR (256) NOT NULL
+        VARCHAR (256) NOT NULL
 ;
 
 -- add new column for users roles
@@ -82,13 +82,13 @@ DROP TABLE users;
 -- create offers table
 CREATE TABLE offers
 (
-    id       serial PRIMARY KEY,
-    title     VARCHAR(256) NOT NULL,
-    count    VARCHAR(50) default 0,
-    url VARCHAR(256) NOT NULL,
-    theme VARCHAR(256) NOT NULL,
+    id 		serial 		 PRIMARY KEY,
+    title 	VARCHAR(256) NOT NULL,
+    payment VARCHAR(50)  default 0,
+    url 	VARCHAR(256) NOT NULL,
+    theme 	VARCHAR(256) NOT NULL,
     user_id VARCHAR(256) NOT NULL,
-    created     DATE        NOT NULL
+    created DATE         NOT NULL
 );
 
 -- add column state
@@ -112,7 +112,7 @@ ALTER TABLE offers
 
 CREATE INDEX id_transitions_index ON offers (id, transitions);
 
-INSERT INTO offers (title, count, url, theme, user_id, created) VALUES ('GitHub Repo', '100', 'https://github.com/andrejsharapov/sf-finally-app','github','1','2023-04-26');
+INSERT INTO offers (title, payment, url, theme, user_id, created) VALUES ('GitHub Repo', '100', 'https://github.com/andrejsharapov/sf-finally-app','github','1','2023-04-26'); 
 
 -- ALTER TABLE offers
 --     DROP COLUMN transitions;
