@@ -12,19 +12,21 @@ class ModelOffers extends Model
     public function getOffersInfo(array $data): array
     {
         return [
-          'form' => $data['form'],
-          'user_id' => $_SESSION['user']['id'] ?? null,
-          'created' => (new DateTime())->format('Y-m-d H:i:s') ?? null,
-          'title' => $data['title'],
-          'payment' => $data['count'],
-          'url' => $data['path'],
-          'theme' => $data['theme'],
+            'form' => $data['form'],
+            'user_id' => $_SESSION['user']['id'] ?? null,
+            'created' => (new DateTime())->format('Y-m-d H:i:s') ?? null,
+            'title' => $data['title'],
+            'payment' => $data['count'],
+            'url' => $data['path'],
+            'theme' => $data['theme'],
         ];
     }
 
     public function handle()
     {
-        if (!empty($_POST) && $_POST['form'] == 'create_offer') {
+        $form = $_POST['form'] ?? null;
+
+        if (!empty($_POST) && $form == 'create_offer') {
             $db_link = $this->dataBaseLink();
             $offer = $this->getOffersInfo($_POST);
             $query = mysqli_prepare($db_link, "INSERT INTO $this->db_table (title, payment, url, theme, user_id, created) " . " VALUES (?, ?, ?, ?, ?, ?)");
@@ -63,9 +65,9 @@ class ModelOffers extends Model
         $set_list = mysqli_query($db_link, $query_offer) or die(mysqli_error($db_link));
 
         for (
-          $this->offers = [];
-          $row = mysqli_fetch_assoc($set_list);
-          $this->offers[] = $row
+            $this->offers = [];
+            $row = mysqli_fetch_assoc($set_list);
+            $this->offers[] = $row
         ) {
         }
 
@@ -98,6 +100,8 @@ class ModelOffers extends Model
 
             mysqli_query($db_link, $increment_offer_trans) or die(mysqli_error($db_link));
 //            mysqli_query($db_link, $update_total_cost) or die(mysqli_error($db_link));
+
+            header('Refresh: 0');
         }
     }
 
@@ -125,7 +129,7 @@ class ModelOffers extends Model
     /**
      * @param string $form
      */
-    public function updateOfferState(string $form)
+    public function updateOfferState(string $form = null)
     {
         $db_link = $this->dataBaseLink();
         $data = $_POST;
