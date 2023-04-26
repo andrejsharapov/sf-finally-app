@@ -50,10 +50,13 @@ class ModelOffers extends Model
         $db_link = $this->dataBaseLink();
         $table_offers = $this->db_table;
         $table_users = 'users';
+        $role_id = $_SESSION['user']['role_id'];
 
-        if ($_SESSION['user']['role_id'] == '2') {
+        if ($role_id == '1') {
+            $query_offer = "SELECT * FROM $table_offers";
+        } else if ($role_id == '2') {
             $query_offer = "SELECT * FROM $table_users LEFT JOIN $table_offers ON $table_offers.user_id = $table_users.id";
-        } else {
+        } else if ($role_id == '3') {
             $query_offer = "SELECT * FROM $table_offers WHERE state = 1";
         }
 
