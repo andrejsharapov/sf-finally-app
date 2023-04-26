@@ -16,7 +16,7 @@ class ModelOffers extends Model
           'user_id' => $_SESSION['user']['id'] ?? null,
           'created' => (new DateTime())->format('Y-m-d H:i:s') ?? null,
           'title' => $data['title'],
-          'count' => $data['count'],
+          'payment' => $data['count'],
           'url' => $data['path'],
           'theme' => $data['theme'],
         ];
@@ -27,9 +27,9 @@ class ModelOffers extends Model
         if (!empty($_POST) && $_POST['form'] == 'create_offer') {
             $db_link = $this->dataBaseLink();
             $offer = $this->getOffersInfo($_POST);
-            $query = mysqli_prepare($db_link, "INSERT INTO $this->db_table (title, count, url, theme, user_id, created) " . " VALUES (?, ?, ?, ?, ?, ?)");
+            $query = mysqli_prepare($db_link, "INSERT INTO $this->db_table (title, payment, url, theme, user_id, created) " . " VALUES (?, ?, ?, ?, ?, ?)");
 
-            mysqli_stmt_bind_param($query, "ssssss", $offer['title'], $offer['count'], $offer['url'], $offer['theme'], $offer['user_id'], $offer['created']);
+            mysqli_stmt_bind_param($query, "ssssss", $offer['title'], $offer['payment'], $offer['url'], $offer['theme'], $offer['user_id'], $offer['created']);
             mysqli_stmt_execute($query);
             mysqli_stmt_close($query);
             mysqli_close($db_link);
@@ -82,6 +82,25 @@ class ModelOffers extends Model
         $this->updateOfferState('active_offer');
     }
 
+    public function incrementPaymentCount($data = null)
+    {
+        $db_link = $this->dataBaseLink();
+        $id = $data['send_id'] ?? null;
+        $trans = $data['send_transition'] ?? null;
+//        $payment = $data['send_payment'] ?? null;
+
+        $trans_i = $trans + 1;
+//        $total_cost = $trans_i * $payment;
+
+        if (!empty($data)) {
+            $increment_offer_trans = "UPDATE $this->db_table SET transitions = '$trans_i' WHERE id = '$id'";
+//            $update_total_cost = "UPDATE $this->db_table SET transitions = '$total_cost' WHERE id = '$id'";
+
+            mysqli_query($db_link, $increment_offer_trans) or die(mysqli_error($db_link));
+//            mysqli_query($db_link, $update_total_cost) or die(mysqli_error($db_link));
+        }
+    }
+
     /**
      * @return mysqli|void
      */
@@ -113,7 +132,7 @@ class ModelOffers extends Model
         $id = $data['val_id'] ?? null;
         $val = $data['set_state'] ?? null;
 
-        if (!empty($_POST) && $_POST['form'] == $form) {
+        if (!empty($data) && $data['form'] == $form) {
             $update_offer_state = "UPDATE $this->db_table SET state = '$val' WHERE id = '$id'";
 
             mysqli_query($db_link, $update_offer_state) or die(mysqli_error($db_link));
