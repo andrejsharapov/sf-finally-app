@@ -40,12 +40,9 @@ main {
     bottom: 0;
     opacity: 0;
   }
-  99% {
+
+  to {
     bottom: var(--snakebar-b);
     opacity: 1;
-  }
-  100% {
-    bottom: 0;
-    opacity: 0;
   }
 }
