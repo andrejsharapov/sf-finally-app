@@ -103,6 +103,16 @@ class ModelOffers extends Model
             mysqli_query($db_link, $increment_offer_trans) or die(mysqli_error($db_link));
             mysqli_query($db_link, $update_total_cost) or die(mysqli_error($db_link));
 
+//            if ($data['form'] == 'form_send') {
+//                $select_offer = "SELECT * FROM $this->db_table WHERE id = $id";
+//                $get_offer = mysqli_query($db_link, $select_offer) or die(mysqli_error($db_link));
+//                $offer_found = mysqli_num_rows($get_offer) > 0;
+//
+//                if (!$offer_found) {
+//                    $_SESSION['offerNotFound'] = 'Предложение было удалено или скрыто рекламодателем.';
+//                }
+//            }
+
             header('Refresh: 0');
         }
     }
