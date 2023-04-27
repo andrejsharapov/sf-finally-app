@@ -215,7 +215,6 @@ if (!isset($user_id)) {
                                     <?php endif; ?>
                                 <?php endif; ?>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -223,3 +222,13 @@ if (!isset($user_id)) {
         <?php endforeach; ?>
     <?php endif; ?>
 </div>
+
+<?php
+if (!empty($_SESSION['checkFollow'])) {
+    echo "<div class='snackbar shadow conainer-sm mx-auto mt-5 rounded p-3 border bg-$_SESSION[errors]-subtle font-weight-medium'>";
+    echo $_SESSION['checkFollow'];
+    echo '</div>';
+
+    unset($_SESSION['checkFollow']);
+}
+?>

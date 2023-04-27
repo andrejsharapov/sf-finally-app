@@ -3,7 +3,7 @@
 class ModelOffers extends Model
 {
     protected string $db_table = 'offers';
-    public $offers = null;
+    public array $offers = [];
 
     /**
      * @param array $data
@@ -107,21 +107,24 @@ class ModelOffers extends Model
         $follower = $this->followsData($_POST) ?? null;
 //        $table_offers = $this->db_table;
         $table_follows = 'follows';
+        $id = $follower['offer_id'];
 
         if (!empty($follower) && $follower['form'] == 'following') {
-//            $check_follow = null; // "SELECT * FROM $table_follows JOIN $this->db_table ON $table_follows.follower_id = $table_offers.user_id WHERE $table_users.id = $user_id";
-//            $get_info = mysqli_query($db_link, $check_follow) or die(mysqli_error($db_link));
-//
-//            if (mysqli_num_rows($get_info) > 0) {
-//                //
-//            } else {
+            // FIXME
+            // проверка что оффер не существует, где оффер_ид = пост_оффер_ид и фолловер_ид = пост_оффер_ид;
+            $check_follow = "SELECT * FROM $table_follows as f JOIN `users` as u ON u.id = f.follower_id AND WHERE u.id = $id";
+            $get_info = mysqli_query($db_link, $check_follow) or die(mysqli_error($db_link));
+
+            if (mysqli_num_rows($get_info) > 0) {
+                $_SESSION['checkFollow'] = 'Вы уже подписались на это предложение.';
+            } else {
                 $set_follower = mysqli_prepare($db_link, "INSERT INTO $table_follows (offer_id, author_id, follower_id, date) " . " VALUES (?, ?, ?, ?)");
 
                 mysqli_stmt_bind_param($set_follower, "ssss", $follower['offer_id'], $follower['author_id'], $follower['follower_id'], $follower['date']);
                 mysqli_stmt_execute($set_follower);
                 mysqli_stmt_close($set_follower);
                 mysqli_close($db_link);
-//            }
+            }
         }
     }
 
@@ -142,6 +145,7 @@ class ModelOffers extends Model
             mysqli_query($db_link, $increment_offer_trans) or die(mysqli_error($db_link));
             mysqli_query($db_link, $update_total_cost) or die(mysqli_error($db_link));
 
+            // TODO
 //            if ($data['form'] == 'form_send') {
 //                $select_offer = "SELECT * FROM $this->db_table WHERE id = $id";
 //                $get_offer = mysqli_query($db_link, $select_offer) or die(mysqli_error($db_link));
