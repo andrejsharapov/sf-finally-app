@@ -112,7 +112,15 @@ ALTER TABLE offers
 
 CREATE INDEX id_transitions_index ON offers (id, transitions);
 
-INSERT INTO offers (title, payment, url, theme, user_id, created) VALUES ('GitHub Repo', '100', 'https://github.com/andrejsharapov/sf-finally-app','github','1','2023-04-26'); 
+INSERT INTO offers (title, payment, url, theme, user_id, created)
+VALUES (
+        'GitHub Repo',
+        '100',
+        'https://github.com/andrejsharapov/sf-finally-app',
+        'github',
+        '1',
+        '2023-04-26'
+    );
 
 -- ALTER TABLE offers
 --     DROP COLUMN transitions;
@@ -129,3 +137,17 @@ SELECT * FROM offers;
 DELETE FROM offers;
 ALTER TABLE offers AUTO_INCREMENT = 1;
 DROP TABLE offers;
+
+-- create follows table
+CREATE TABLE follows
+(
+    id			serial PRIMARY KEY,
+    offer_id	INT NOT NULL,
+    author_id	INT NOT NULL,
+    follower_id	INT NOT NULL
+);
+
+CREATE INDEX offer_id_follower_id_index ON follows (offer_id, follower_id);
+CREATE INDEX offer_id_author_id_index ON follows (offer_id, author_id);
+
+SELECT * FROM follows;
