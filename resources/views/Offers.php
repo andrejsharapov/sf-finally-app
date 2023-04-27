@@ -17,6 +17,7 @@ if (!isset($user_id)) {
 </h3>
 
 <h6 class="card-subtitle mb-3 text-body-secondary">
+    <span class="opacity-25">(<?= $user['role']; ?>)</span>
     <?php if (isset($user) && $user['role_id'] == '2'): ?>
         Здесь вы можете создать своё предложение.
     <?php elseif ($user['role_id'] == '3'): ?>
@@ -113,31 +114,47 @@ if (!isset($user_id)) {
                 <div class="col-4 mb-4">
                     <div class="card card-form_send">
                         <div class="card-body">
-                            <h4 class="card-title">
+                            <h4 class="card-title d-flex justify-content-between" title="id автора предложения">
                                 <?= $val['title']; ?>
+                                <span class="opacity-25"><?= $val['user_id']; ?></span>
                             </h4>
+
                             <h6 class="card-subtitle mb-2 text-body-secondary">
                                 От <?php
                                 $date = date_create($val['created']);
                                 echo date_format($date, 'd.m.Y');
                                 ?>
                             </h6>
+
                             <p>
                                 Тематика: <?= $val['theme']; ?>
                             </p>
 
+                            <?php if (isset($user) && ($val['user_id'] == $user_id || $user['role_id'] == '1')): ?>
+                                <details>
+                                    <summary>Детали</summary>
+                                    <div class="p-2 bg-light">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>
+                                                → Переходы (клики)</span>
+                                            <?= $val['transitions']; ?>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>→ Общий доход</span>
+                                            <?= $val['total_cost'] . ' руб.'; ?>
+                                        </div>
+                                        <div class="text-nowrap mb-1 overflow-hidden w-100 text-truncate">
+                                            → <?= $val['url']; ?>
+                                        </div>
+                                    </div>
+                                </details>
+                            <?php endif; ?>
+
                             <div class="d-flex justify-content-between align-items-center text-danger">
-                                <h6 class="mb-0">
-                                    <?php if (isset($user) && ($val['user_id'] == $user_id || $user['role_id'] == '1')): ?>
-                                        Стоимость: <?= $val['payment'] . ' руб.' ?>
-                                    <?php endif; ?>
-                                </h6>
+                                <div class="d-flex justify-content-between">
+                                    <span><?= $val['payment'] . ' руб.'; ?></span>
+                                </div>
                                 <?php if (isset($user) && $user['role_id'] == '3'): ?>
-                                    <!-- TESTS -->
-                                    <?php
-                                    echo $val['payment'] . ', ' . $val['transitions'] . ', ' . $val['total_cost'];
-                                    ?>
-                                    <!-- /TESTS -->
                                     <form method="post" class="form_send">
                                         <input type="hidden" name="form" value="" class="">
                                         <input type="hidden" name="send_id" value="<?php echo $val['id']; ?>"
@@ -176,6 +193,7 @@ if (!isset($user_id)) {
                                     <?php endif; ?>
                                 <?php endif; ?>
                             </div>
+
                         </div>
                     </div>
                 </div>
