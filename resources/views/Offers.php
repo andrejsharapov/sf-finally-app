@@ -120,9 +120,10 @@ if (!isset($user_id)) {
                                 <?php if (isset($user) && $user['role_id'] == '3'): ?>
                                     <form method="post">
                                         <input type="hidden" name="form" value="following">
-                                        <input type="hidden" name="send_id" value="<?php echo $val['id']; ?>"
-                                        <input type="hidden" name="send_id" value="<?php echo $user['id']; ?>"
-                                        <button type="submit" class="btn btn-primary">
+                                        <input type="hidden" name="offer_id" value="<?php echo $val['id']; ?>">
+                                        <input type="hidden" name="author_id" value="<?php echo $val['user_id']; ?>">
+                                        <input type="hidden" name="follower_id" value="<?php echo $user['id']; ?>">
+                                        <button type="submit" class="btn btn-light">
                                             <svg width="24" height="24" fill="orange" xmlns="http://www.w3.org/2000/svg"
                                                  viewBox="0 0 24 24">
                                                 <title>Unfollow</title>

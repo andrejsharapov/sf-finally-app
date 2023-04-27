@@ -114,13 +114,13 @@ CREATE INDEX id_transitions_index ON offers (id, transitions);
 
 INSERT INTO offers (title, payment, url, theme, user_id, created)
 VALUES (
-        'GitHub Repo',
-        '100',
-        'https://github.com/andrejsharapov/sf-finally-app',
-        'github',
-        '1',
-        '2023-04-26'
-    );
+           'GitHub Repo',
+           '100',
+           'https://github.com/andrejsharapov/sf-finally-app',
+           'github',
+           '1',
+           '2023-04-26'
+       );
 
 -- ALTER TABLE offers
 --     DROP COLUMN transitions;
@@ -142,12 +142,19 @@ DROP TABLE offers;
 CREATE TABLE follows
 (
     id			serial PRIMARY KEY,
-    offer_id	INT NOT NULL,
-    author_id	INT NOT NULL,
-    follower_id	INT NOT NULL
+    offer_id	INT  NOT NULL,
+    author_id	INT  NOT NULL,
+    follower_id	INT  NOT NULL,
+    date		DATE NOT NULL
 );
 
 CREATE INDEX offer_id_follower_id_index ON follows (offer_id, follower_id);
 CREATE INDEX offer_id_author_id_index ON follows (offer_id, author_id);
 
 SELECT * FROM follows;
+
+DELETE FROM follows;
+ALTER TABLE follows AUTO_INCREMENT = 1;
+DROP TABLE follows;
+
+-- select * from users as o join follows as f on o.;
