@@ -5,6 +5,7 @@
         <th scope="col">Login</th>
         <th scope="col">Email</th>
         <th scope="col">Role</th>
+        <th scope="col">Role ID</th>
     </tr>
     </thead>
     <tbody>
@@ -20,6 +21,7 @@
             echo "<td>" . $val['name'] . "</td>";
             echo "<td>" . $val['email'] . "</td>";
             echo "<td>" . $val['role'] . "</td>";
+            echo "<td>" . $val['role_id'] . "</td>";
             echo "</tr>";
         }
     }
