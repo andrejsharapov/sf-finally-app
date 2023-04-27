@@ -53,12 +53,13 @@ class ModelOffers extends Model
         $table_offers = $this->db_table;
         $table_users = 'users';
         $role_id = $_SESSION['user']['role_id'];
+        $user_id = $_SESSION['user']['id'];
         $query_offer = null;
 
         if ($role_id == '1') {
             $query_offer = "SELECT * FROM $table_offers";
         } else if ($role_id == '2') {
-            $query_offer = "SELECT * FROM $table_users LEFT JOIN $table_offers ON $table_offers.user_id = $table_users.id";
+            $query_offer = "SELECT * FROM $table_users JOIN $table_offers ON $table_offers.user_id = $table_users.id WHERE $table_users.id = $user_id";
         } else if ($role_id == '3') {
             $query_offer = "SELECT * FROM $table_offers WHERE state = 1";
         }
