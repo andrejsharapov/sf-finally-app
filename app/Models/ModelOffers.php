@@ -12,13 +12,13 @@ class ModelOffers extends Model
     public function getOffersInfo(array $data): array
     {
         return [
-            'form' => $data['form'],
-            'user_id' => $_SESSION['user']['id'] ?? null,
-            'created' => (new DateTime())->format('Y-m-d H:i:s') ?? null,
-            'title' => $data['title'],
-            'payment' => $data['payment'],
-            'url' => $data['path'],
-            'theme' => $data['theme'],
+          'form' => $data['form'],
+          'user_id' => $_SESSION['user']['id'] ?? null,
+          'created' => (new DateTime())->format('Y-m-d H:i:s') ?? null,
+          'title' => $data['title'],
+          'payment' => $data['payment'],
+          'url' => $data['path'],
+          'theme' => $data['theme'],
         ];
     }
 
@@ -67,9 +67,9 @@ class ModelOffers extends Model
         $set_list = mysqli_query($db_link, $query_offer) or die(mysqli_error($db_link));
 
         for (
-            $this->offers = [];
-            $row = mysqli_fetch_assoc($set_list);
-            $this->offers[] = $row
+          $this->offers = [];
+          $row = mysqli_fetch_assoc($set_list);
+          $this->offers[] = $row
         ) {
         }
 
@@ -85,6 +85,35 @@ class ModelOffers extends Model
     {
         $this->updateOfferState('active_offer');
     }
+
+//    public function followsData(array $data): array
+//    {
+//        return [
+//          'form' => $data['form'] ?? null,
+//          'offer_id' => $data['offer_id'] ?? null,
+//          'author_id' => $data['author_id'] ?? null,
+//          'follower_id' => $data['follower_id'] ?? null,
+//          'date' => (new DateTime())->format('Y-m-d H:i:s') ?? null,
+//        ];
+//    }
+
+//    public function followToOffer()
+//    {
+//        $db_link = $this->dataBaseLink();
+//        $follower = $this->followsData($_POST);
+//        $db_table = 'follows';
+//
+//        if (!empty($follower)) {
+//            $query = mysqli_prepare($db_link, "INSERT INTO $db_table (offer_id, author_id, follower_id, date) " . " VALUES (?, ?, ?, ?)");
+//
+//            mysqli_stmt_bind_param($query, "ssss", $offer['offer_id'], $offer['author_id'], $offer['follower_id'], $offer['date']);
+//            mysqli_stmt_execute($query);
+//            mysqli_stmt_close($query);
+//            mysqli_close($db_link);
+//
+//            header('Refresh: 0');
+//        }
+//    }
 
     public function incrementPaymentCount($data = null)
     {
