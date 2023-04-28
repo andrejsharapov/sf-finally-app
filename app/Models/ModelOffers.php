@@ -12,13 +12,13 @@ class ModelOffers extends Model
     public function getOffersInfo(array $data): array
     {
         return [
-            'form' => $data['form'],
-            'creator_id' => $_SESSION['user']['id'] ?? null,
-            'created' => (new DateTime())->format('Y-m-d H:i:s') ?? null,
-            'title' => $data['title'],
-            'payment' => $data['payment'],
-            'url' => $data['path'],
-            'theme' => $data['theme'],
+          'form' => $data['form'],
+          'creator_id' => $_SESSION['user']['id'] ?? null,
+          'created' => (new DateTime())->format('Y-m-d H:i:s') ?? null,
+          'title' => $data['title'],
+          'payment' => $data['payment'],
+          'url' => $data['path'],
+          'theme' => $data['theme'],
         ];
     }
 
@@ -51,10 +51,13 @@ class ModelOffers extends Model
     public function offerList()
     {
         $db_link = $this->dataBaseLink();
+
         $table_offers = $this->db_table;
         $table_users = 'users';
+
         $role_id = $_SESSION['user']['role_id'];
         $user_id = $_SESSION['user']['id'];
+
         $query_offer = null;
 
         if ($role_id == '1') {
@@ -68,11 +71,17 @@ class ModelOffers extends Model
         $set_list = mysqli_query($db_link, $query_offer) or die(mysqli_error($db_link));
 
         for (
-            $this->offers = [];
-            $row = mysqli_fetch_assoc($set_list);
-            $this->offers[] = $row
+          $this->offers = [];
+          $row = mysqli_fetch_assoc($set_list);
+          $this->offers[] = $row
         ) {
         }
+
+        $this->offers = array_map(function ($el) {
+            $el['followers'] = $this->followersCount($el['id']);
+
+            return $el;
+        }, $this->offers);
 
         return $this->offers ?? [];
     }
@@ -94,31 +103,48 @@ class ModelOffers extends Model
     public function followsData(array $data): array
     {
         return [
-            'form' => $data['form'] ?? null,
-            'offer_id' => $data['offer_id'] ?? null,
-            'author_id' => $data['author_id'] ?? null,
-            'follower_id' => $data['follower_id'] ?? null,
-            'date' => (new DateTime())->format('Y-m-d H:i:s') ?? null,
+          'form' => $data['form'] ?? null,
+          'offer_id' => $data['offer_id'] ?? null,
+          'author_id' => $data['author_id'] ?? null,
+          'follower_id' => $data['follower_id'] ?? null,
+          'date' => (new DateTime())->format('Y-m-d H:i:s') ?? null,
         ];
+    }
+
+    public function followersCount($offer_id)
+    {
+        $db_link = $this->dataBaseLink();
+
+        $table_offers = $this->db_table;
+        $table_follows = 'follows';
+
+        $count_followers = "SELECT count(*) as count FROM $table_offers AS o JOIN $table_follows AS f ON o.id = f.offer_id WHERE o.id = $offer_id";
+        $count_rows = mysqli_query($db_link, $count_followers) or die(mysqli_error($db_link));
+
+        $row = mysqli_fetch_row($count_rows);
+        $total = reset($row);
+
+        return $total;
     }
 
     public function followToOffer()
     {
         $db_link = $this->dataBaseLink();
         $follower = $this->followsData($_POST) ?? null;
+
         $table_offers = $this->db_table;
         $table_follows = 'follows';
-        $offer_id = $follower['offer_id'];
+
+        $offer_id = $follower['offer_id'] ?? null;
         $u_id = $follower['follower_id'];
 
         if (!empty($follower) && $follower['form'] == 'following') {
-            $check_follow = "SELECT * FROM $table_offers AS o JOIN $table_follows AS f ON o.id = f.offer_id where o.id = $offer_id and f.follower_id = $u_id";
+            $check_follow = "SELECT * FROM $table_offers AS o JOIN $table_follows AS f ON o.id = f.offer_id WHERE o.id = $offer_id AND f.follower_id = $u_id";
             $get_info = mysqli_query($db_link, $check_follow) or die(mysqli_error($db_link));
 
             if (mysqli_num_rows($get_info) > 0) {
                 $_SESSION['checkFollow'] = 'Вы уже подписались на это предложение.';
 
-                header('Location: /?url=offers');
             } else {
                 $set_follower = mysqli_prepare($db_link, "INSERT INTO $table_follows (offer_id, author_id, follower_id, date) " . " VALUES (?, ?, ?, ?)");
 
@@ -126,13 +152,18 @@ class ModelOffers extends Model
                 mysqli_stmt_execute($set_follower);
                 mysqli_stmt_close($set_follower);
                 mysqli_close($db_link);
+
             }
         }
     }
 
+    /**
+     * @param null $data
+     */
     public function incrementPaymentCount($data = null)
     {
         $db_link = $this->dataBaseLink();
+
         $id = $data['send_id'] ?? null;
         $trans = $data['send_transition'] ?? null;
         $payment = $data['send_payment'] ?? null;
@@ -158,7 +189,7 @@ class ModelOffers extends Model
 //                }
 //            }
 
-            header('Refresh: 0');
+            header('Location: /?url=offers');
         }
     }
 
@@ -184,12 +215,14 @@ class ModelOffers extends Model
     }
 
     /**
-     * @param string $form
+     * @param string|null $form
      */
     public function updateOfferState(string $form = null)
     {
         $db_link = $this->dataBaseLink();
+
         $data = $_POST;
+
         $id = $data['val_id'] ?? null;
         $val = $data['set_state'] ?? null;
 
