@@ -157,4 +157,5 @@ DELETE FROM follows;
 ALTER TABLE follows AUTO_INCREMENT = 1;
 DROP TABLE follows;
 
--- SELECT * FROM offers AS o JOIN follows AS f ON o.id = f.offer_id where o.id = 2;
+-- SELECT count(*) FROM offers AS o JOIN follows AS f ON o.id = f.offer_id where o.id = 2;
+-- SELECT follower_id FROM offers AS o JOIN follows AS f ON o.id = f.offer_id where o.id = 2;
