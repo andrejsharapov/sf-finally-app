@@ -158,6 +158,11 @@ if (!isset($user_id)) {
                                     <div class="p-2 bg-light">
                                         <div class="d-flex justify-content-between mb-1">
                                             <span>
+                                                → Число подписчиков</span>
+                                            <?= $val['followers']; ?>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>
                                                 → Переходы (клики)</span>
                                             <?= $val['transitions']; ?>
                                         </div>
