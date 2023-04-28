@@ -201,7 +201,7 @@ if (!isset($user_id)) {
                                     </form>
                                 <?php endif; ?>
 
-                                <?php if ($val['user_id'] == $user_id || $user['role_id'] == '1'): ?>
+                                <?php if ($val['creator_id'] == $user_id || $user['role_id'] == '1'): ?>
                                     <?php if ($val['state'] == '1'): ?>
                                         <form method="post">
                                             <input type="hidden" id="form" name="form" value="inactive_offer">
