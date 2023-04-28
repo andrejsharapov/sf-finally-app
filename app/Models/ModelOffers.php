@@ -83,6 +83,12 @@ class ModelOffers extends Model
             return $el;
         }, $this->offers);
 
+        $this->offers = array_map(function ($el) {
+            $el['following'] = $this->getFollowingState($el['id']);
+
+            return $el;
+        }, $this->offers);
+
         return $this->offers ?? [];
     }
 
@@ -111,6 +117,27 @@ class ModelOffers extends Model
         ];
     }
 
+    /**
+     * @param $offer_id
+     * @return int|string|void
+     */
+    public function getFollowingState($offer_id)
+    {
+        $db_link = $this->dataBaseLink();
+        $table_follows = 'follows';
+
+        $user_id = $_SESSION['user']['id'];
+
+        $follow_state = "SELECT * FROM $table_follows as f WHERE f.offer_id = $offer_id AND f.follower_id = $user_id";
+        $count_rows = mysqli_query($db_link, $follow_state) or die(mysqli_error($db_link));
+
+        return mysqli_num_rows($count_rows);
+    }
+
+    /**
+     * @param $offer_id
+     * @return false|mixed|void
+     */
     public function followersCount($offer_id)
     {
         $db_link = $this->dataBaseLink();
@@ -122,9 +149,8 @@ class ModelOffers extends Model
         $count_rows = mysqli_query($db_link, $count_followers) or die(mysqli_error($db_link));
 
         $row = mysqli_fetch_row($count_rows);
-        $total = reset($row);
 
-        return $total;
+        return reset($row);
     }
 
     public function followToOffer()
@@ -143,7 +169,9 @@ class ModelOffers extends Model
             $get_info = mysqli_query($db_link, $check_follow) or die(mysqli_error($db_link));
 
             if (mysqli_num_rows($get_info) > 0) {
-                $_SESSION['checkFollow'] = 'Вы уже подписались на это предложение.';
+                $check_follow = "DELETE FROM $table_follows WHERE offer_id = $offer_id AND follower_id = $u_id";
+
+                mysqli_query($db_link, $check_follow) or die(mysqli_error($db_link));
 
             } else {
                 $set_follower = mysqli_prepare($db_link, "INSERT INTO $table_follows (offer_id, author_id, follower_id, date) " . " VALUES (?, ?, ?, ?)");
@@ -152,7 +180,6 @@ class ModelOffers extends Model
                 mysqli_stmt_execute($set_follower);
                 mysqli_stmt_close($set_follower);
                 mysqli_close($db_link);
-
             }
         }
     }
