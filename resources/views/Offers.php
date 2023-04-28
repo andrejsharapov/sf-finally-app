@@ -114,7 +114,7 @@ if (!isset($user_id)) {
                 <div class="col-4 mb-4">
                     <div class="card card-form_send">
                         <div class="card-body">
-                            <h4 class="card-title d-flex justify-content-between" title="id автора предложения">
+                            <h4 class="card-title d-flex justify-content-between">
                                 <?= $val['title']; ?>
 
                                 <?php if (isset($user) && $user['role_id'] == '3'): ?>
