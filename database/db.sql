@@ -131,6 +131,7 @@ ALTER TABLE offers
 ;
 
 -- UPDATE offers SET state = '0' WHERE id = 1;
+-- ALTER TABLE offers RENAME COLUMN user_id TO creator_id;
 
 SELECT * FROM offers;
 
