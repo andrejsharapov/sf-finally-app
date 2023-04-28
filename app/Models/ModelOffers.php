@@ -13,7 +13,7 @@ class ModelOffers extends Model
     {
         return [
             'form' => $data['form'],
-            'user_id' => $_SESSION['user']['id'] ?? null,
+            'creator_id' => $_SESSION['user']['id'] ?? null,
             'created' => (new DateTime())->format('Y-m-d H:i:s') ?? null,
             'title' => $data['title'],
             'payment' => $data['payment'],
@@ -29,9 +29,9 @@ class ModelOffers extends Model
         if (!empty($_POST) && $form == 'create_offer') {
             $db_link = $this->dataBaseLink();
             $offer = $this->getOffersInfo($_POST);
-            $query = mysqli_prepare($db_link, "INSERT INTO $this->db_table (title, payment, url, theme, user_id, created) " . " VALUES (?, ?, ?, ?, ?, ?)");
+            $query = mysqli_prepare($db_link, "INSERT INTO $this->db_table (title, payment, url, theme, creator_id, created) " . " VALUES (?, ?, ?, ?, ?, ?)");
 
-            mysqli_stmt_bind_param($query, "ssssss", $offer['title'], $offer['payment'], $offer['url'], $offer['theme'], $offer['user_id'], $offer['created']);
+            mysqli_stmt_bind_param($query, "ssssss", $offer['title'], $offer['payment'], $offer['url'], $offer['theme'], $offer['creator_id'], $offer['created']);
             mysqli_stmt_execute($query);
             mysqli_stmt_close($query);
             mysqli_close($db_link);
@@ -41,6 +41,7 @@ class ModelOffers extends Model
             }
 
             header('Refresh: 0');
+            unset($_SESSION['checkOffer']);
         }
     }
 
@@ -59,7 +60,7 @@ class ModelOffers extends Model
         if ($role_id == '1') {
             $query_offer = "SELECT * FROM $table_offers";
         } else if ($role_id == '2') {
-            $query_offer = "SELECT * FROM $table_users JOIN $table_offers ON $table_offers.user_id = $table_users.id WHERE $table_users.id = $user_id";
+            $query_offer = "SELECT * FROM $table_users JOIN $table_offers ON $table_offers.creator_id = $table_users.id WHERE $table_users.id = $user_id";
         } else if ($role_id == '3') {
             $query_offer = "SELECT * FROM $table_offers WHERE state = 1";
         }
@@ -105,18 +106,19 @@ class ModelOffers extends Model
     {
         $db_link = $this->dataBaseLink();
         $follower = $this->followsData($_POST) ?? null;
-//        $table_offers = $this->db_table;
+        $table_offers = $this->db_table;
         $table_follows = 'follows';
-        $id = $follower['offer_id'];
+        $offer_id = $follower['offer_id'];
+        $u_id = $follower['follower_id'];
 
         if (!empty($follower) && $follower['form'] == 'following') {
-            // FIXME
-            // проверка что оффер не существует, где оффер_ид = пост_оффер_ид и фолловер_ид = пост_оффер_ид;
-            $check_follow = "SELECT * FROM $table_follows as f JOIN `users` as u ON u.id = f.follower_id AND WHERE u.id = $id";
+            $check_follow = "SELECT * FROM $table_offers AS o JOIN $table_follows AS f ON o.id = f.offer_id where o.id = $offer_id and f.follower_id = $u_id";
             $get_info = mysqli_query($db_link, $check_follow) or die(mysqli_error($db_link));
 
             if (mysqli_num_rows($get_info) > 0) {
                 $_SESSION['checkFollow'] = 'Вы уже подписались на это предложение.';
+
+                header('Location: /?url=offers');
             } else {
                 $set_follower = mysqli_prepare($db_link, "INSERT INTO $table_follows (offer_id, author_id, follower_id, date) " . " VALUES (?, ?, ?, ?)");
 
