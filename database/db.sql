@@ -41,7 +41,7 @@ CREATE TABLE users
 -- fix password error (use hash)
 ALTER TABLE users
     MODIFY COLUMN password
-        VARCHAR (256) NOT NULL
+    VARCHAR (256) NOT NULL
 ;
 
 -- add new column for users roles
@@ -87,7 +87,7 @@ CREATE TABLE offers
     payment VARCHAR(50)  default 0,
     url 	VARCHAR(256) NOT NULL,
     theme 	VARCHAR(256) NOT NULL,
-    user_id VARCHAR(256) NOT NULL,
+    creator_id VARCHAR(256) NOT NULL,
     created DATE         NOT NULL
 );
 
@@ -102,8 +102,8 @@ ALTER TABLE offers
         SET DEFAULT '1'
 ;
 
-CREATE INDEX title_user_id_index ON offers (title, user_id);
-CREATE INDEX title_user_id_state_index ON offers (title, user_id, state);
+CREATE INDEX title_user_id_index ON offers (title, creator_id);
+CREATE INDEX title_user_id_state_index ON offers (title, creator_id, state);
 
 -- add column transitions
 ALTER TABLE offers
@@ -112,7 +112,7 @@ ALTER TABLE offers
 
 CREATE INDEX id_transitions_index ON offers (id, transitions);
 
-INSERT INTO offers (title, payment, url, theme, user_id, created)
+INSERT INTO offers (title, payment, url, theme, creator_id, created)
 VALUES (
            'GitHub Repo',
            '100',
@@ -157,4 +157,4 @@ DELETE FROM follows;
 ALTER TABLE follows AUTO_INCREMENT = 1;
 DROP TABLE follows;
 
--- select * from users as o join follows as f on o.;
+-- SELECT * FROM offers AS o JOIN follows AS f ON o.id = f.offer_id where o.id = 2;
