@@ -152,7 +152,7 @@ if (!isset($user_id)) {
                                 Тематика: <?= $val['theme']; ?>
                             </p>
 
-                            <?php if (isset($user) && ($val['user_id'] == $user_id || $user['role_id'] == '1')): ?>
+                            <?php if (isset($user) && ($val['creator_id'] == $user_id || $user['role_id'] == '1')): ?>
                                 <details>
                                     <summary>Детали</summary>
                                     <div class="p-2 bg-light">
