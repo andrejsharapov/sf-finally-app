@@ -12,23 +12,15 @@ class ControllerOffers extends Controller
     {
         $data = $this->model->handle();
 
-        $this->update($data);
+        $this->update();
         $this->increment();
         $this->followers();
         $this->show($data);
     }
 
-    public function followers(): ?array
+    public function followers()
     {
-        $data['followers'] = null;
-
-        if (isset($_POST)) {
-            $data['followers'] = $_POST;
-
-            $this->model->followToOffer($_POST);
-        }
-
-        return $data['followers'];
+        $this->model->followToOffer();
     }
 
     public function increment(): ?array
@@ -45,10 +37,10 @@ class ControllerOffers extends Controller
         return $data;
     }
 
-    public function update($data)
+    public function update()
     {
-        $data['activateOffer'] = $this->model->activateOffer();
-        $data['unActivateOffer'] = $this->model->unActivateOffer();
+        $this->model->activateOffer();
+        $this->model->unActivateOffer();
     }
 
     public function show($data)
