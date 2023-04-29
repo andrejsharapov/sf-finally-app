@@ -185,9 +185,14 @@ if (!isset($user_id)) {
                                 <div class="d-flex justify-content-between">
                                     <span><?= $val['payment'] . ' руб.'; ?></span>
                                     <?php if (isset($user) && $user_id == $val['user_id'] && $user['role_id'] == '3'): ?>
-                                        <span>&nbsp;|&nbsp;</span>
-                                        <?= 'Доход: ' . $val['master_amount'] . ' руб.'; ?>
-                                    <? endif; ?>
+                                        <span>&nbsp;| Доход:&nbsp;</span>
+                                        <?php
+                                        if(!empty($val['master_amount'])) {
+                                            echo $val['master_amount'] . ' руб.';
+                                        } else {
+                                            echo '0 руб.';
+                                        } ?>
+                                    <?php endif; ?>
                                 </div>
 
                                 <?php if (isset($user) && $user['role_id'] == '3'): ?>
