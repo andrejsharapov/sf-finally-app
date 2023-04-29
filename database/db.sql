@@ -26,7 +26,7 @@ SELECT * FROM roles;
 
 DELETE FROM roles;
 ALTER TABLE roles AUTO_INCREMENT = 1;
-DROP TABLE roles;
+DROP TABLE  roles;
 
 -- create users table (with error in password)
 CREATE TABLE users
@@ -77,18 +77,18 @@ SELECT * FROM users WHERE role_id >= 2;
 
 DELETE FROM users WHERE id > 1;
 ALTER TABLE users AUTO_INCREMENT = 2;
-DROP TABLE users;
+DROP TABLE  users;
 
 -- create offers table
 CREATE TABLE offers
 (
-    id 		serial 		 PRIMARY KEY,
-    title 	VARCHAR(256) NOT NULL,
-    payment VARCHAR(50)  default 0,
-    url 	VARCHAR(256) NOT NULL,
-    theme 	VARCHAR(256) NOT NULL,
-    creator_id VARCHAR(256) NOT NULL,
-    created DATE         NOT NULL
+    id 		    serial 		 PRIMARY KEY,
+    title 	    VARCHAR(256) NOT NULL,
+    payment     VARCHAR(50)  default 0,
+    url 	    VARCHAR(256) NOT NULL,
+    theme 	    VARCHAR(256) NOT NULL,
+    creator_id  VARCHAR(256) NOT NULL,
+    created     DATE         NOT NULL
 );
 
 -- add column state
@@ -137,7 +137,7 @@ SELECT * FROM offers;
 
 DELETE FROM offers;
 ALTER TABLE offers AUTO_INCREMENT = 1;
-DROP TABLE offers;
+DROP TABLE  offers;
 
 -- create follows table
 CREATE TABLE follows
@@ -156,30 +156,31 @@ SELECT * FROM follows;
 
 DELETE FROM follows;
 ALTER TABLE follows AUTO_INCREMENT = 1;
-DROP TABLE follows;
+DROP TABLE  follows;
 
 -- SELECT count(*) FROM offers AS o JOIN follows AS f ON o.id = f.offer_id where o.id = 2;
 -- SELECT follower_id FROM offers AS o JOIN follows AS f ON o.id = f.offer_id where o.id = 2;
 
 SHOW TABLES;
 
-create table moves (
-                       id				serial PRIMARY KEY,
-                       date			date not null,
-                       offer_id		int not null,
-                       master_id		int not null,
-                       payment_offer	int not null,
-                       amount			bigint default 0
+-- create moves table
+CREATE TABLE moves (
+    id				serial PRIMARY KEY,
+    date			DATE NOT NULL,
+    offer_id		INT  NOT NULL,
+    master_id		INT  NOT NULL,
+    payment_offer	INT  NOT NULL,
+    amount			BIGINT DEFAULT 0
 );
 
 CREATE INDEX master_offer_index ON moves (master_id, offer_id);
 CREATE INDEX master_offer_payment_index ON moves (master_id, offer_id, payment_offer);
 CREATE INDEX offer_payment_amount_index ON moves (offer_id, payment_offer, amount);
 
-select * from moves;
+SELECT * FROM moves;
 
 DELETE FROM moves;
 ALTER TABLE moves AUTO_INCREMENT = 1;
-DROP TABLE moves;
+DROP TABLE  moves;
 
--- select sum(payment_offer) from moves where offer_id = 3 and master_id = 3;
+-- SELECT SUM(payment_offer) FROM moves WHERE offer_id = 3 AND master_id = 3;
