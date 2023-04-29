@@ -187,7 +187,7 @@ if (!isset($user_id)) {
                                     <?php if (isset($user) && $user_id == $val['user_id'] && $user['role_id'] == '3'): ?>
                                         <span>&nbsp;| Доход:&nbsp;</span>
                                         <?php
-                                        if(!empty($val['master_amount'])) {
+                                        if (!empty($val['master_amount'])) {
                                             echo $val['master_amount'] . ' руб.';
                                         } else {
                                             echo '0 руб.';
