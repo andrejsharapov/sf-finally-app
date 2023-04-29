@@ -127,7 +127,7 @@ VALUES (
 
 -- add column transitions
 ALTER TABLE offers
-    ADD COLUMN total_cost INT DEFAULT '0' -- тут нужно будет заменить дефолт на значения из payment
+    ADD COLUMN total_cost INT DEFAULT '0'
 ;
 
 -- UPDATE offers SET state = '0' WHERE id = 1;
