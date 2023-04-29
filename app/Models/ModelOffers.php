@@ -55,8 +55,8 @@ class ModelOffers extends Model
         $table_offers = self::OFFERS;
         $table_users = self::USERS;
 
-        $role_id = $_SESSION['user']['role_id'];
-        $user_id = $_SESSION['user']['id'];
+        $role_id = $_SESSION['user']['role_id'] ?? null;
+        $user_id = $_SESSION['user']['id'] ?? null;
 
         $query_offer = null;
 
@@ -68,13 +68,15 @@ class ModelOffers extends Model
             $query_offer = "SELECT * FROM $table_offers WHERE state = 1";
         }
 
-        $set_list = mysqli_query($db_link, $query_offer) or die(mysqli_error($db_link));
+        if (!empty($query_offer)) {
+            $set_list = mysqli_query($db_link, $query_offer) or die(mysqli_error($db_link));
 
-        for (
-            $this->offers = [];
-            $row = mysqli_fetch_assoc($set_list);
-            $this->offers[] = $row
-        ) {
+            for (
+                $this->offers = [];
+                $row = mysqli_fetch_assoc($set_list);
+                $this->offers[] = $row
+            ) {
+            }
         }
 
         $this->offers = array_map(function ($el) {
