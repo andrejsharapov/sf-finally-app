@@ -1,5 +1,8 @@
 <?php
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 class ModelOffers extends Model
 {
     public array $offers = [];
@@ -210,16 +213,14 @@ class ModelOffers extends Model
 
             $this->setMasterMoves($db_link, $this->movesData($data));
 
-            // TODO
-//            if ($data['form'] == 'form_send') {
-//                $select_offer = "SELECT * FROM $this->db_table WHERE id = $id";
-//                $get_offer = mysqli_query($db_link, $select_offer) or die(mysqli_error($db_link));
-//                $offer_found = mysqli_num_rows($get_offer) > 0;
-//
-//                if (!$offer_found) {
-//                    $_SESSION['offerNotFound'] = 'Предложение было удалено или скрыто рекламодателем.';
-//                }
-//            }
+            // create new logger
+            $log = new Logger('MOVE_LOGGER');
+
+            // set handlers
+            $log->pushHandler(new StreamHandler(dirname(__DIR__, 2) . '/config/logging/check_transition.log', Logger::INFO));
+
+            // add records
+            $log->info('done:', array('user_id' => $id, 'path' => $data['send_path'], 'datetime' => (new DateTime())->format('Y-m-d H:i:s')));
 
             header('Location: /?url=offers');
         }
@@ -237,6 +238,7 @@ class ModelOffers extends Model
             'offer_id' => $data['send_id'],
             'master_id' => $data['send_user_id'],
             'payment_offer' => $data['send_payment'],
+            'offer_path' => $data['send_path'],
         ];
     }
 

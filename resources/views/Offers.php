@@ -198,16 +198,12 @@ if (!isset($user_id)) {
                                 <?php if (isset($user) && $user['role_id'] == '3'): ?>
                                     <form method="post" class="form_send">
                                         <input type="hidden" name="form" value="form_send">
-                                        <input type="hidden" name="send_id" value="<?php echo $val['id']; ?>"
-                                               class="form_send-id">
-                                        <input type="hidden" name="send_payment" value="<?php echo $val['payment']; ?>"
-                                               class="form_send-payment">
-                                        <input type="hidden" name="send_transition"
-                                               value="<?php echo $val['transitions']; ?>" class="form_send-transitions">
-                                        <input type="hidden" name="send_user_id" value="<?php echo $user['id']; ?>"
-                                               class="form_send-user_id">
-                                        <button type="submit"
-                                                class="form_send-btn w-100 btn btn-primary form_send-link">
+                                        <input type="hidden" name="send_id" value="<?php echo $val['id']; ?>">
+                                        <input type="hidden" name="send_path" value="<?php echo $val['url']; ?>">
+                                        <input type="hidden" name="send_payment" value="<?php echo $val['payment']; ?>">
+                                        <input type="hidden" name="send_transition" value="<?php echo $val['transitions']; ?>">
+                                        <input type="hidden" name="send_user_id" value="<?php echo $user['id']; ?>">
+                                        <button type="submit" class="btn btn-primary">
                                             Перейти
                                         </button>
                                     </form>
