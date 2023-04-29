@@ -41,7 +41,7 @@ CREATE TABLE users
 -- fix password error (use hash)
 ALTER TABLE users
     MODIFY COLUMN password
-    VARCHAR (256) NOT NULL
+        VARCHAR (256) NOT NULL
 ;
 
 -- add new column for users roles
@@ -160,3 +160,26 @@ DROP TABLE follows;
 
 -- SELECT count(*) FROM offers AS o JOIN follows AS f ON o.id = f.offer_id where o.id = 2;
 -- SELECT follower_id FROM offers AS o JOIN follows AS f ON o.id = f.offer_id where o.id = 2;
+
+SHOW TABLES;
+
+create table moves (
+                       id				serial PRIMARY KEY,
+                       date			date not null,
+                       offer_id		int not null,
+                       master_id		int not null,
+                       payment_offer	int not null,
+                       amount			bigint default 0
+);
+
+CREATE INDEX master_offer_index ON moves (master_id, offer_id);
+CREATE INDEX master_offer_payment_index ON moves (master_id, offer_id, payment_offer);
+CREATE INDEX offer_payment_amount_index ON moves (offer_id, payment_offer, amount);
+
+select * from moves;
+
+DELETE FROM moves;
+ALTER TABLE moves AUTO_INCREMENT = 1;
+DROP TABLE moves;
+
+-- select sum(payment_offer) from moves where offer_id = 3 and master_id = 3;
