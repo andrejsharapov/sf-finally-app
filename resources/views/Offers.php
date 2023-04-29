@@ -184,16 +184,23 @@ if (!isset($user_id)) {
                             <div class="d-flex justify-content-between align-items-center text-danger">
                                 <div class="d-flex justify-content-between">
                                     <span><?= $val['payment'] . ' руб.'; ?></span>
+                                    <?php if (isset($user) && $user_id == $val['user_id']): ?>
+                                        <span>&nbsp;|&nbsp;</span>
+                                        <?= 'Доход: ' . $val['master_amount'] . ' руб.'; ?>
+                                    <? endif; ?>
                                 </div>
+
                                 <?php if (isset($user) && $user['role_id'] == '3'): ?>
                                     <form method="post" class="form_send">
-                                        <input type="hidden" name="form" value="">
+                                        <input type="hidden" name="form" value="form_send">
                                         <input type="hidden" name="send_id" value="<?php echo $val['id']; ?>"
                                                class="form_send-id">
                                         <input type="hidden" name="send_payment" value="<?php echo $val['payment']; ?>"
                                                class="form_send-payment">
                                         <input type="hidden" name="send_transition"
                                                value="<?php echo $val['transitions']; ?>" class="form_send-transitions">
+                                        <input type="hidden" name="send_user_id" value="<?php echo $user['id']; ?>"
+                                               class="form_send-user_id">
                                         <button type="submit"
                                                 class="form_send-btn w-100 btn btn-primary form_send-link">
                                             Перейти
