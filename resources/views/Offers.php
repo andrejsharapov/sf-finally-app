@@ -184,7 +184,7 @@ if (!isset($user_id)) {
                             <div class="d-flex justify-content-between align-items-center text-danger">
                                 <div class="d-flex justify-content-between">
                                     <span><?= $val['payment'] . ' руб.'; ?></span>
-                                    <?php if (isset($user) && $user_id == $val['user_id']): ?>
+                                    <?php if (isset($user) && $user_id == $val['user_id'] && $user['role_id'] == '3'): ?>
                                         <span>&nbsp;|&nbsp;</span>
                                         <?= 'Доход: ' . $val['master_amount'] . ' руб.'; ?>
                                     <? endif; ?>
