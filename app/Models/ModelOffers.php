@@ -84,17 +84,7 @@ class ModelOffers extends Model
 
         $this->offers = array_map(function ($el) {
             $el['followers'] = $this->followersCount($el['id']);
-
-            return $el;
-        }, $this->offers);
-
-        $this->offers = array_map(function ($el) {
             $el['following'] = $this->getFollowingState($el['id']);
-
-            return $el;
-        }, $this->offers);
-
-        $this->offers = array_map(function ($el) {
             $el['user_id'] = $_SESSION['user']['id'];
             $el['master_amount'] = $this->totalCostByMaster($el['id'], $el['user_id']);
 
