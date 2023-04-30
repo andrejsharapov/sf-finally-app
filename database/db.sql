@@ -184,3 +184,15 @@ ALTER TABLE moves AUTO_INCREMENT = 1;
 DROP TABLE  moves;
 
 -- SELECT SUM(payment_offer) FROM moves WHERE offer_id = 3 AND master_id = 3;
+
+-- select to current day (если добавить - 1, то покажет за вчерашний день)
+SELECT id, date, offer_id FROM moves WHERE offer_id = 2 AND date = CURDATE(); -- - 1;
+
+-- select to current week
+-- SELECT id, date, offer_id FROM moves WHERE offer_id = 2 AND YEAR(date) = YEAR(NOW()) AND WEEK(date) = WEEK(NOW());
+
+-- select to current month
+SELECT id, date, offer_id FROM moves WHERE offer_id = 2 AND YEAR(date) = YEAR(NOW()) AND MONTH(date) = MONTH(NOW());
+
+-- select to current year
+SELECT id, date, offer_id FROM moves WHERE offer_id = 2 AND YEAR(NOW());
