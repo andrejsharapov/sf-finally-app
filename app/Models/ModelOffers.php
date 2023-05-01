@@ -207,7 +207,7 @@ class ModelOffers extends Model
             $log = new Logger('MOVE_LOGGER');
 
             // set handlers
-            $log->pushHandler(new StreamHandler(dirname(__DIR__, 2) . '/config/logging/check_transition.log', Logger::INFO));
+            $log->pushHandler(new StreamHandler(__DIR__ . '/../../config/logging/check_transition.log', Logger::INFO));
 
             // add records
             $log->info('done:', array('user_id' => $id, 'path' => $data['send_path'], 'datetime' => (new DateTime())->format('Y-m-d H:i:s')));
