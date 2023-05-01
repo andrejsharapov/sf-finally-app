@@ -11,6 +11,7 @@ class ControllerHome extends Controller
     public function index()
     {
         $data = $this->model->handle();
+
         $this->view->generate('Home.php', 'Layout.php', $data);
     }
 }

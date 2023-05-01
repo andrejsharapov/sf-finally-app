@@ -1,11 +1,7 @@
 <?php
 
-session_start();
-
 class ModelHome extends Model
 {
-    protected string $db_table = 'users';
-
     /**
      * @param array $data
      * @return array
@@ -25,7 +21,7 @@ class ModelHome extends Model
 
     public function handle()
     {
-        //get user info
+        // get user info
         if (!empty($_POST)) {
             mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
@@ -33,13 +29,13 @@ class ModelHome extends Model
 
             mysqli_query($db_link, "SET NAMES 'utf8'");
 
-            /* check connection */
+            // check connection
             if (mysqli_connect_errno()) {
                 printf("Connect failed: %s\n", mysqli_connect_error());
                 die();
             }
 
-            // Register and Auth
+            // register and auth
             if ($_POST['form'] == 'register') {
                 $user = $this->register($_POST);
 
@@ -68,11 +64,11 @@ class ModelHome extends Model
                     unset($_SESSION['errors']);
 
                     // check login in database
-                    $findUserName = "SELECT * FROM $this->db_table WHERE name = '$user[name]'";
+                    $findUserName = "SELECT * FROM " . self::USERS . " WHERE name = '$user[name]'";
                     $resultName = mysqli_query($db_link, $findUserName) or die(mysqli_error($db_link));
                     $rowsName = mysqli_num_rows($resultName) > 0;
 
-                    $findUserEmail = "SELECT * FROM $this->db_table WHERE email = '$user[email]'";
+                    $findUserEmail = "SELECT * FROM " . self::USERS . " WHERE email = '$user[email]'";
                     $resultEmail = mysqli_query($db_link, $findUserEmail) or die(mysqli_error($db_link));
                     $rowsEmail = mysqli_num_rows($resultEmail) > 0;
 
@@ -83,7 +79,7 @@ class ModelHome extends Model
                         $_SESSION['checkReg'] = 'Такая почта уже зарегистрирована.';
                         $_SESSION['errors'] = 'danger';
                     } else {
-                        $query = mysqli_prepare($db_link, "INSERT INTO $this->db_table (name, email, password, date, role, role_id) " . " VALUES (?, ?, ?, ?, ?, ?)");
+                        $query = mysqli_prepare($db_link, "INSERT INTO " . self::USERS . " (name, email, password, date, role, role_id) " . " VALUES (?, ?, ?, ?, ?, ?)");
 
                         mysqli_stmt_bind_param($query, "ssssss", $user['name'], $user['email'], $user['password'], $user['date'], $user['role'], $user['role_id']);
                         mysqli_stmt_execute($query);
@@ -91,7 +87,7 @@ class ModelHome extends Model
                         mysqli_close($db_link);
 
                         if ($query) {
-                            header('location: /');
+                            header('Location: /');
 
                             $_SESSION['checkReg'] = 'Вы успешно зарегистрированы!';
                             $_SESSION['errors'] = 'success';
@@ -107,7 +103,7 @@ class ModelHome extends Model
                 // check token
                 if ($token == $_SESSION["CSRF"]) {
                     // get user info
-                    $checkUser = "SELECT * FROM " . $this->db_table . " WHERE `email` = '$name' AND `password` = '$password'";
+                    $checkUser = "SELECT * FROM " . self::USERS . " WHERE `email` = '$name' AND `password` = '$password'";
                     $auth = mysqli_query($db_link, $checkUser) or die(mysqli_error($db_link));
 
                     // check user in database
@@ -130,10 +126,10 @@ class ModelHome extends Model
                             $_SESSION['errors'] = 'success';
                         }
 
-                        header('location: /?url=offers');
+                        header('Location: /?url=offers');
                     } else {
                         $_SESSION['errors'] = 'danger';
-                        $checkUserName = "SELECT * FROM " . $this->db_table . " WHERE `name` = '$name'";
+                        $checkUserName = "SELECT * FROM " . self::USERS . " WHERE `email` = '$name'";
                         $userName = mysqli_query($db_link, $checkUserName) or die(mysqli_error($db_link));
 
                         if (mysqli_num_rows($userName) > 0) {
@@ -141,8 +137,6 @@ class ModelHome extends Model
                         } else {
                             $_SESSION['checkAuth'] = 'Не верный логин или пароль.';
                         }
-
-//                        header('location: /');
                     }
                 }
             }

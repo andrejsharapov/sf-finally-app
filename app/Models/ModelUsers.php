@@ -1,16 +1,13 @@
 <?php
 
-session_start();
-
 class ModelUsers extends Model
 {
-
     protected string $db_table = 'users';
 
     /**
      * @return array
      */
-    public function handle()
+    public function handle(): array
     {
         $db_link = (new DB)->getDatabase() or die(mysqli_error($db_link)) ?? [];
         $query = "SELECT * FROM " . $this->db_table . " WHERE id > 0";

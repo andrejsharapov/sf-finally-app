@@ -15,6 +15,6 @@ class View
      */
     function generate($content_view, $layout, $data = null)
     {
-        include 'resources/views/' . $layout;
+        include __DIR__ . '/' . $layout;
     }
 }
