@@ -2,8 +2,8 @@
 
 class Route
 {
-    public string $namespace_controller = "App/Http/Controllers/";
-    public string $namespace_models = "App/Models/";
+    public string $controllers_path = "app/Http/Controllers/";
+    public string $models_path = "app/Models/";
 
     public function start()
     {
@@ -23,19 +23,19 @@ class Route
 
         // подцепляем файл с классом модели (файла модели может и не быть)
         $model_file = strtolower($model_name) . '.php';
-        $model_path = $this->namespace_models . $model_file;
+        $model_path = $this->models_path . $model_file;
 
         if (file_exists($model_path)) {
-            include $this->namespace_models . $model_file;
+            include $this->models_path . $model_file;
         }
+
         // подцепляем файл с классом контроллера
         $controller_file = strtolower($controller_name) . '.php';
-        $controller_path = $this->namespace_controller . $controller_file;
+        $controller_path = $this->controllers_path . $controller_file;
 
         if (file_exists($controller_path)) {
-            include $this->namespace_controller . $controller_file;
+            include $this->controllers_path . $controller_file;
         } else {
-
             Route::ErrorPage404();
         }
 
