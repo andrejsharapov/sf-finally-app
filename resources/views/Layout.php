@@ -100,30 +100,21 @@ function setColor(): string
             $footerItems = [
                 ['name' => 'Widgets 1', 'link' => [
                     ['name' => 'Link 1', 'link' => '#'],
-                    ['name' => 'Link 1', 'link' => '#'],
-                    ['name' => 'Link 1', 'link' => '#'],
-                    ['name' => 'Link 1', 'link' => '#'],
+                    ['name' => 'Link 2', 'link' => '#'],
                 ]
                 ],
                 ['name' => 'Widgets 2', 'link' => [
-                    ['name' => 'Link 2', 'link' => '#'],
-                    ['name' => 'Link 2', 'link' => '#'],
-                    ['name' => 'Link 2', 'link' => '#'],
+                    ['name' => 'Link 1', 'link' => '#'],
                     ['name' => 'Link 2', 'link' => '#'],
                 ],
                 ],
                 ['name' => 'Widgets 3', 'link' => [
-                    ['name' => 'Link 3', 'link' => '#'],
-                    ['name' => 'Link 3', 'link' => '#'],
-                    ['name' => 'Link 3', 'link' => '#'],
-                    ['name' => 'Link 3', 'link' => '#'],
+                    ['name' => 'Link 1', 'link' => '#'],
                 ],
                 ],
                 ['name' => 'Widgets 4', 'link' => [
-                    ['name' => 'Link 4', 'link' => '#'],
-                    ['name' => 'Link 4', 'link' => '#'],
-                    ['name' => 'Link 4', 'link' => '#'],
-                    ['name' => 'Link 4', 'link' => '#'],
+                    ['name' => 'Link 1', 'link' => '#'],
+                    ['name' => 'Link 2', 'link' => '#'],
                 ],
                 ]
             ];
