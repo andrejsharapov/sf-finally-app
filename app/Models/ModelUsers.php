@@ -7,7 +7,7 @@ class ModelUsers extends Model
     /**
      * @return array
      */
-    public function handle(): array
+    public function index(): array
     {
         $db_link = (new DB)->getDatabase() or die(mysqli_error($db_link)) ?? [];
         $query = "SELECT * FROM " . $this->db_table . " WHERE id > 0";

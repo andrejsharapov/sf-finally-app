@@ -10,7 +10,7 @@ class ControllerUsers extends Controller
 
     function index()
     {
-        $data = $this->model->handle();
+        $data = $this->model->index();
 
         $this->view->generate('Users.php', 'Layout.php', $data);
     }

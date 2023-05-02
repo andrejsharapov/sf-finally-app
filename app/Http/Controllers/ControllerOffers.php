@@ -10,7 +10,7 @@ class ControllerOffers extends Controller
 
     function index()
     {
-        $data = $this->model->handle();
+        $data = $this->model->index();
 
         $this->update();
         $this->increment();

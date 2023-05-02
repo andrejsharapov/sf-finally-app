@@ -24,7 +24,7 @@ class ModelOffers extends Model
         ];
     }
 
-    public function handle()
+    public function index()
     {
         $form = $_POST['form'] ?? null;
 

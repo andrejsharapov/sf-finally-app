@@ -19,7 +19,7 @@ class ModelHome extends Model
         ];
     }
 
-    public function handle()
+    public function index()
     {
         // get user info
         if (!empty($_POST)) {
