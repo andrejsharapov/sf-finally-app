@@ -5,7 +5,7 @@ $user_id = $user['id'];
 $offers = $data['offers'] ?? [];
 
 if (!isset($user_id)) {
-    header('Location: /');
+    header('Location: /?url=home');
 }
 
 ?>
@@ -167,9 +167,14 @@ if (!isset($user_id)) {
                                         </div>
                                         <div class="d-flex justify-content-between mb-1">
                                             <span>
-                                                → Переходы (клики)</span>
+                                                → Всего переходов (клики)</span>
                                             <?= $val['transitions']; ?>
                                         </div>
+                                        <?php
+                                        echo '<div class="d-flex justify-content-between"><span>За день: </span>' . $val['sum_moves_per_day'] . '</div>';
+                                        echo '<div class="d-flex justify-content-between"><span>За месяц: </span>' . $val['sum_moves_per_month'] . '</div>';
+                                        echo '<div class="d-flex justify-content-between"><span>За год: </span>' . $val['sum_moves_per_year'] . '</div>';
+                                        ?>
                                         <div class="d-flex justify-content-between mb-1">
                                             <span>→ Расходы</span>
                                             <?= $val['total_cost'] . ' руб.'; ?>
