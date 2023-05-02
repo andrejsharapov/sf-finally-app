@@ -215,7 +215,7 @@ class ModelOffers extends Model
             // add records
             $log->info('done:', array('user_id' => $id, 'path' => $data['send_path'], 'datetime' => (new DateTime())->format('Y-m-d H:i:s')));
 
-            header('Location: /?url=offers');
+            header('Location: ?url=offers');
         }
     }
 

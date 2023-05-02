@@ -87,7 +87,7 @@ class ModelHome extends Model
                         mysqli_close($db_link);
 
                         if ($query) {
-                            header('Location: /');
+                            header('Location: ?url=home');
 
                             $_SESSION['checkReg'] = 'Вы успешно зарегистрированы!';
                             $_SESSION['errors'] = 'success';
@@ -126,7 +126,7 @@ class ModelHome extends Model
                             $_SESSION['errors'] = 'success';
                         }
 
-                        header('Location: /?url=offers');
+                        header('Location: ?url=offers');
                     } else {
                         $_SESSION['errors'] = 'danger';
                         $checkUserName = "SELECT * FROM " . self::USERS . " WHERE `email` = '$name'";

@@ -3,7 +3,7 @@
 $user = $_SESSION['user'] ?? null;
 
 if (isset($user)) {
-    header('Location: /?url=offers');
+    header('Location: ?url=offers');
 }
 
 ?>

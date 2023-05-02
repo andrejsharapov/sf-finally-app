@@ -4,9 +4,9 @@ require_once __DIR__ . '/../../dotenv.php';
 
 $app_name = $_ENV['APP_NAME'];
 $header_items = [
-    ['name' => 'Главная', 'path' => '/'],
-    ['name' => 'Предложения', 'path' => '/?url=offers'],
-    ['name' => 'Пользователи', 'path' => '/?url=users'],
+    ['name' => 'Главная', 'path' => '?url=home'],
+    ['name' => 'Предложения', 'path' => '?url=offers'],
+    ['name' => 'Пользователи', 'path' => '?url=users'],
 ];
 
 if (!isset($_SESSION['token'])) {
@@ -46,7 +46,7 @@ function setColor(): string
     <title><?= $app_name; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Open+Sans&display=swap" rel="stylesheet">
-    <link href="/public/css/app.css" rel="stylesheet">
+    <link href="public/css/app.css" rel="stylesheet">
 </head>
 
 <body>
@@ -78,7 +78,7 @@ function setColor(): string
 
         if (isset($_SESSION['user']['id'])) {
             echo "<li class='border-0 list-group-item bg-transparent'>";
-            echo "<a class='text-decoration-none align-items-center bg-" . setColor() . " text-white font-bold rounded' href='/logout.php' title='Выход'>Выход</a>";
+            echo "<a class='text-decoration-none align-items-center bg-" . setColor() . " text-white font-bold rounded' href='logout.php' title='Выход'>Выход</a>";
             echo "</li>";
         }
 
