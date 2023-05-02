@@ -87,6 +87,9 @@ class ModelOffers extends Model
             $el['following'] = $this->getFollowingState($el['id']);
             $el['user_id'] = $_SESSION['user']['id'];
             $el['master_amount'] = $this->totalCostByMaster($el['id'], $el['user_id']);
+            $el['sum_moves_per_day'] = $this->sumOfMovesPerDay($el['id']) ?? '0';
+            $el['sum_moves_per_month'] = $this->sumOfMovesPerMonth($el['id']) ?? '0';
+            $el['sum_moves_per_year'] = $this->sumOfMovesPerYear($el['id']) ?? '0';
 
             return $el;
         }, $this->offers);
@@ -284,6 +287,51 @@ class ModelOffers extends Model
 
             header('Refresh: 0');
         }
+    }
+
+    /**
+     * @param $offer_id
+     * @return false|mixed|void
+     */
+    public function sumOfMovesPerDay($offer_id) {
+        $db_link = $this->dataBaseLink();
+
+        $count_moves = "SELECT count(*) FROM " . self::MOVES . " WHERE offer_id = $offer_id AND date = CURDATE()";
+        $count_rows = mysqli_query($db_link, $count_moves) or die(mysqli_error($db_link));
+
+        $row = mysqli_fetch_row($count_rows);
+
+        return reset($row);
+    }
+
+    /**
+     * @param $offer_id
+     * @return false|mixed|void
+     */
+    public function sumOfMovesPerMonth($offer_id) {
+        $db_link = $this->dataBaseLink();
+
+        $count_moves = "SELECT count(*) FROM " . self::MOVES . " WHERE offer_id = $offer_id AND YEAR(date) = YEAR(NOW()) AND MONTH(date) = MONTH(NOW())";
+        $count_rows = mysqli_query($db_link, $count_moves) or die(mysqli_error($db_link));
+
+        $row = mysqli_fetch_row($count_rows);
+
+        return reset($row);
+    }
+
+    /**
+     * @param $offer_id
+     * @return false|mixed|void
+     */
+    public function sumOfMovesPerYear($offer_id) {
+        $db_link = $this->dataBaseLink();
+
+        $count_moves = "SELECT count(*) FROM " . self::MOVES . " WHERE offer_id = $offer_id AND YEAR(NOW())";
+        $count_rows = mysqli_query($db_link, $count_moves) or die(mysqli_error($db_link));
+
+        $row = mysqli_fetch_row($count_rows);
+
+        return reset($row);
     }
 
     /**
