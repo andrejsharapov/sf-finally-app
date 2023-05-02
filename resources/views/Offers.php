@@ -1,11 +1,11 @@
 <?php
 
-$user = $_SESSION['user'];
-$user_id = $user['id'];
+$user = $_SESSION['user'] ?? null;
+$user_id = $user['id'] ?? null;
 $offers = $data['offers'] ?? [];
 
-if (!isset($user_id)) {
-    header('Location: /?url=home');
+if (!isset($user) && empty($user_id)) {
+    header('Location: ?url=home');
 }
 
 ?>
