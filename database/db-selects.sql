@@ -7,7 +7,7 @@
 CREATE DATABASE php_finally_app;
 USE php_finally_app;
 
--- SHOW TABLES;
+SHOW TABLES;
 
 -- create table roles
 CREATE TABLE roles
@@ -22,7 +22,7 @@ INSERT INTO roles (name) VALUES ('admin');
 INSERT INTO roles (name) VALUES ('user');
 INSERT INTO roles (name) VALUES ('master');
 
--- SELECT * FROM roles;
+SELECT * FROM roles;
 
 -- DELETE FROM roles;
 -- ALTER TABLE roles AUTO_INCREMENT = 1;
@@ -41,7 +41,7 @@ CREATE TABLE users
 -- fix password error (use hash)
 ALTER TABLE users
     MODIFY COLUMN password
-        VARCHAR (256) NOT NULL
+    VARCHAR (256) NOT NULL
 ;
 
 -- add new column for users roles
@@ -73,7 +73,7 @@ VALUES (
 CREATE INDEX role_email_index ON users (role, email);
 CREATE INDEX role_role_id_index ON users (role, role_id);
 
--- SELECT * FROM users WHERE role_id >= 2;
+SELECT * FROM users WHERE role_id >= 2;
 
 -- DELETE FROM users WHERE id > 1;
 -- ALTER TABLE users AUTO_INCREMENT = 2;
@@ -133,8 +133,8 @@ ALTER TABLE offers
 -- UPDATE offers SET state = '0' WHERE id = 1;
 -- ALTER TABLE offers RENAME COLUMN user_id TO creator_id;
 
--- SELECT * FROM offers;
---
+SELECT * FROM offers;
+
 -- DELETE FROM offers;
 -- ALTER TABLE offers AUTO_INCREMENT = 1;
 -- DROP TABLE  offers;
@@ -152,7 +152,7 @@ CREATE TABLE follows
 CREATE INDEX offer_id_follower_id_index ON follows (offer_id, follower_id);
 CREATE INDEX offer_id_author_id_index ON follows (offer_id, author_id);
 
--- SELECT * FROM follows;
+SELECT * FROM follows;
 
 -- DELETE FROM follows;
 -- ALTER TABLE follows AUTO_INCREMENT = 1;
@@ -161,38 +161,38 @@ CREATE INDEX offer_id_author_id_index ON follows (offer_id, author_id);
 -- SELECT count(*) FROM offers AS o JOIN follows AS f ON o.id = f.offer_id where o.id = 2;
 -- SELECT follower_id FROM offers AS o JOIN follows AS f ON o.id = f.offer_id where o.id = 2;
 
--- SHOW TABLES;
-
 -- create moves table
 CREATE TABLE moves (
-                       id				serial PRIMARY KEY,
-                       date			DATE NOT NULL,
-                       offer_id		INT  NOT NULL,
-                       master_id		INT  NOT NULL,
-                       payment_offer	INT  NOT NULL,
-                       amount			BIGINT DEFAULT 0
+    id				serial PRIMARY KEY,
+    date			DATE NOT NULL,
+    offer_id		INT  NOT NULL,
+    master_id		INT  NOT NULL,
+    payment_offer	INT  NOT NULL,
+    amount			BIGINT DEFAULT 0
 );
 
 CREATE INDEX master_offer_index ON moves (master_id, offer_id);
 CREATE INDEX master_offer_payment_index ON moves (master_id, offer_id, payment_offer);
 CREATE INDEX offer_payment_amount_index ON moves (offer_id, payment_offer, amount);
 
--- SELECT * FROM moves;
+SELECT * FROM moves;
+
+-- SELECT SUM(payment_offer) FROM moves WHERE offer_id = 3 AND master_id = 3;
 
 -- DELETE FROM moves;
 -- ALTER TABLE moves AUTO_INCREMENT = 1;
 -- DROP TABLE  moves;
 
--- SELECT SUM(payment_offer) FROM moves WHERE offer_id = 3 AND master_id = 3;
+SHOW TABLES;
 
 -- select to current day (если добавить - 1, то покажет за вчерашний день)
--- SELECT id, date, offer_id FROM moves WHERE offer_id = 2 AND date = CURDATE(); -- - 1;
+SELECT id, date, offer_id FROM moves WHERE offer_id = 2 AND date = CURDATE(); -- - 1;
 
 -- select to current week
--- SELECT id, date, offer_id FROM moves WHERE offer_id = 2 AND YEAR(date) = YEAR(NOW()) AND WEEK(date) = WEEK(NOW());
+SELECT id, date, offer_id FROM moves WHERE offer_id = 2 AND YEAR(date) = YEAR(NOW()) AND WEEK(date) = WEEK(NOW());
 
 -- select to current month
--- SELECT id, date, offer_id FROM moves WHERE offer_id = 2 AND YEAR(date) = YEAR(NOW()) AND MONTH(date) = MONTH(NOW());
+SELECT id, date, offer_id FROM moves WHERE offer_id = 2 AND YEAR(date) = YEAR(NOW()) AND MONTH(date) = MONTH(NOW());
 
 -- select to current year
--- SELECT id, date, offer_id FROM moves WHERE offer_id = 2 AND YEAR(NOW());
+SELECT id, date, offer_id FROM moves WHERE offer_id = 2 AND YEAR(NOW());
