@@ -4,7 +4,8 @@
 -- ------------------------------------------------------
 -- Server version	8.0.11
 
-CREATE DATABASE `php_finally_app` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
+DROP DATABASE IF EXISTS `php_finally_app`;
+CREATE DATABASE `php_finally_app` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 USE php_finally_app;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -35,7 +36,7 @@ CREATE TABLE `follows` (
   UNIQUE KEY `id` (`id`),
   KEY `offer_id_follower_id_index` (`offer_id`,`follower_id`),
   KEY `offer_id_author_id_index` (`offer_id`,`author_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +67,7 @@ CREATE TABLE `moves` (
   KEY `master_offer_index` (`master_id`,`offer_id`),
   KEY `master_offer_payment_index` (`master_id`,`offer_id`,`payment_offer`),
   KEY `offer_payment_amount_index` (`offer_id`,`payment_offer`,`amount`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +102,7 @@ CREATE TABLE `offers` (
   KEY `title_user_id_index` (`title`,`creator_id`),
   KEY `title_user_id_state_index` (`title`,`creator_id`,`state`),
   KEY `id_transitions_index` (`id`,`transitions`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +128,7 @@ CREATE TABLE `roles` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `id_name_index` (`id`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +160,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `id` (`id`),
   KEY `role_email_index` (`role`,`email`),
   KEY `role_role_id_index` (`role`,`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
