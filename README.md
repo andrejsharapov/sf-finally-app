@@ -21,7 +21,7 @@ php -S 127.0.0.1:8080
 ## Links and Helpers
 
 > **Note**  
-> Follow the instructions [here to connect and set up](database/db.sql) the database. .env.example [here](.env.example).
+> Follow the instructions [here to connect and set up](database/dump-php_finally_app-202305021123.sql) the database. .env.example [here](.env.example).
 
 The helpers.
 
