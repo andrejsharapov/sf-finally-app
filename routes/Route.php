@@ -22,7 +22,7 @@ class Route
         $controller_name = 'Controller' . ucfirst($controller_name);
 
         // подцепляем файл с классом модели (файла модели может и не быть)
-        $model_file = strtolower($model_name) . '.php';
+        $model_file = $model_name . '.php';
         $model_path = $this->models_path . $model_file;
 
         if (file_exists($model_path)) {
@@ -30,7 +30,7 @@ class Route
         }
 
         // подцепляем файл с классом контроллера
-        $controller_file = strtolower($controller_name) . '.php';
+        $controller_file = $controller_name . '.php';
         $controller_path = $this->controllers_path . $controller_file;
 
         if (file_exists($controller_path)) {
